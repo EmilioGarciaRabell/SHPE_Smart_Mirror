@@ -4,7 +4,6 @@ const Time = () =>{
     
     return(
         <div>
-           {currTime} 
         </div>
     )
 }

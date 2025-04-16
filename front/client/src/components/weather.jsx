@@ -15,7 +15,6 @@ const Weather = () =>{
         }
        
     }
-
     useEffect(() =>{
         fetchWeatherApi()
         console.log(daysWeather)
