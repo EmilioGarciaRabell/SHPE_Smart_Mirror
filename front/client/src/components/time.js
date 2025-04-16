@@ -1,5 +1,3 @@
-
-
 const Time = () =>{
 
     const currTime = new Date().toLocaleTimeString;
