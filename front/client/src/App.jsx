@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import './App.css'
-import Weather from './components/weather.jsx'
-import { DateTime } from './components/time.js'
+import { DateTime } from './components/time.jsx'
 
 function App() {
 
