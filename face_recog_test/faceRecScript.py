@@ -4,6 +4,9 @@ import os, sys
 import numpy as np
 import math
 
+"""
+A data class that handles the facial recognition.
+"""
 class faceRec:
     faceLocations = []
     faceEncodings = []
@@ -12,9 +15,16 @@ class faceRec:
     knownFaceNames = []
     procActualFace = True
 
+    """
+    This initializes the faceRec data class and encodes the pictures from the 'faces' folder.
+    """
     def __init__(self):
         self.encodeFaces()
 
+    """
+    This encodes all of the faces stored in the 'faces' folder. Each picture is processed and its
+    encoding is stored along with the file name
+    """
     def encodeFaces(self):
         for image in os.listdir('faces'):
             faceImage = face_recognition.load_image_file(f'faces/{image}')
@@ -23,6 +33,12 @@ class faceRec:
             self.knownFaceNames.append(image)
         print(self.knownFaceNames)
 
+    """
+    This function starts the facial recognition using the webcam. It detects faces in real-time,
+    matches them with known faces, and displays the results. To exit out of the window, the key
+    'q' can be pressed to exit out of th webcam window. The exiting method is just for testing 
+    purposes.
+    """
     def runFR(self):
         webcamVideo = cv2.VideoCapture(0)
         if not webcamVideo.isOpened():
@@ -32,7 +48,7 @@ class faceRec:
 
             if self.procActualFace:
                 smallFrame = cv2.resize(frame, (0, 0), fx=0.25, fy=0.25)
-                rgbSmallFrame = smallFrame[:, :, ::-1]
+                rgbSmallFrame = np.ascontiguousarray(smallFrame)
                 self.faceLocations = face_recognition.face_locations(rgbSmallFrame)
                 self.faceEncodings = face_recognition.face_encodings(rgbSmallFrame, self.faceLocations)
                 self.faceNames = []
@@ -62,7 +78,15 @@ class faceRec:
         webcamVideo.release()
         cv2.destroyAllWindows()
 
-
+"""
+This function calculates the percentage of a face match based on the face distance.
+Parameters:
+    faceDistance(float): The distance between the known face encoding and the detected
+                         face encoding.
+    faceTH: The threshold value for face matching, which the default is set to 60%.
+Return:
+    (str): The confidence percentage as a string so that it can be printed on webcam feed's face rectangle.
+"""
 def faceMatchPercentage(faceDistance, faceTH=0.60):
     range = 1.0 - faceTH
     linearVal = (1.0 - faceDistance) / (range * 2.0)
@@ -72,7 +96,10 @@ def faceMatchPercentage(faceDistance, faceTH=0.60):
         val = (linearVal + ((1.0 - linearVal) * math.pow((linearVal - 0.5) * 2, 0.2))) * 100
         return str(round(val, 2)) + "%"
     
-
+"""
+The main function of the facial recognition script. It calls the facial recognition data class to
+initialize it and after that the facial recognition process begins. 
+"""
 if __name__ == '__main__':
     facialRecognition = faceRec()
     facialRecognition.runFR()
