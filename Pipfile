@@ -4,12 +4,17 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-flask = "==2.2.2"
+face-recognition = "*"
 flask-cors = "==3.0.10"
 flask-restful = "==0.3.9"
 psycopg2-binary = "*"
-face-recognition = "*"
+flask = ">=2.2"
 opencv-python = "*"
+"rpi.gpio" = "*"
+gpiozero = "*"
+pigpio = "*"
+gpiod = "*"
+lgpio = "*"
 
 [dev-packages]
 
