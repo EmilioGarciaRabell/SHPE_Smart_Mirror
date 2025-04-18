@@ -23,7 +23,7 @@ export const DateTime = () => {
     )
 }
 
-export default Time;
+export default DateTime;
 
 
 
