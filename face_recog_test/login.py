@@ -2,8 +2,9 @@ from faceRecScript import faceRec
 
 auth = faceRec()
 name, percentage = auth.authUser()
-if({name}):
-    print(f"Welcome {name} ({percentage:.1f}%)")
+faceTH = 85
+if(percentage >= faceTH):
+    print(f"Welcome {name}!")
 else:
-    print(f"Access denied! ({percentage:.1f}%)")
+    print(f"Access Denined!")
 
