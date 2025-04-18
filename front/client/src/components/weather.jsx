@@ -2,32 +2,45 @@
 import { useEffect, useState } from 'react'
 const Weather = () =>{
 
-    const [daysWeather,setdaysWeather]  = useState([])
+    const [daysWeather,setDaysWeather]  = useState(null)
     let weatherURL = 'http://127.0.0.1:5000/weather'
     
-
-    async function fetchWeatherApi(){
+    const fetchWeather = async () => {
         try {
-            const response = await fetch(weatherURL)
-            setdaysWeather(response.json())
-        } catch (error) {
-           console.log(error) 
+          const response = await fetch(weatherURL)
+          const data = await response.json()
+          console.log(data.daily.time)
+          setDaysWeather(data)
+        } catch (err) {
+          setError(err.message)
         }
-       
     }
-    useEffect(() =>{
-        fetchWeatherApi()
-        console.log(daysWeather)
-    },[])
 
-    
+    useEffect(() => {
+        fetchWeather()
+      }, [])
 
+
+      const renderForecast = () => {
+        const { time, temperature_2m_max, temperature_2m_min } = daysWeather.daily
+        return time.map((date, index) => (
+          <div className='forecast-div' key={date} style={{ marginBottom: '1rem' }}>
+            <h4 className='date-'>{date}</h4>
+            <div>
+            <p>Min: {temperature_2m_min[index]}°C</p>
+            <p>Max: {temperature_2m_max[index]}°C</p>
+            </div>
+          </div>
+        ))
+      }
+        
+      
 
     return <>
-        <h1>forecast</h1>
+        <h1>Forecast</h1>
 
         <div>
-
+            {renderForecast()} 
         </div>
         
     </>

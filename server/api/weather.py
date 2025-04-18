@@ -12,6 +12,7 @@ class Weather(Resource):
 
     @cross_origin()
     def get(self):
-        openWeatherURL = "https://api.tomorrow.io/v4/weather/forecast?location=new%20york&timesteps=1d&apikey=YfBMivvegXnnh7ZxeptGwmcjz44lbq3w"
+        # url = "https://api.open-meteo.com/v1/forecast?latitude=43.15501&longitude=-77.596855&current=temperature_2m&timezone=America%2FNew_York"
+        openWeatherURL = "https://api.open-meteo.com/v1/forecast?latitude=43.1566&longitude=-77.6088&daily=temperature_2m_max,temperature_2m_min,weather_code&timezone=America%2FChicago"
         weather = requests.get(openWeatherURL)
         return weather.json()
