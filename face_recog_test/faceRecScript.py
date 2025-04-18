@@ -3,6 +3,7 @@ import cv2
 import os, sys
 import numpy as np
 import math
+import json
 
 """
 A data class that handles the facial recognition.
@@ -18,20 +19,30 @@ class faceRec:
     """
     This initializes the faceRec data class and encodes the pictures from the 'faces' folder.
     """
-    def __init__(self):
+    def __init__(self, usersFileIn = 'users.json', facesFolder = 'faces'):
+        with open(usersFileIn, 'r') as f:
+            self.users = json.load(f)
+        self.userKeys = {u['user_name']: u['user_key'] for u in self.users}
+        self.facesFolder = facesFolder
         self.encodeFaces()
+
 
     """
     This encodes all of the faces stored in the 'faces' folder. Each picture is processed and its
     encoding is stored along with the file name
     """
     def encodeFaces(self):
-        for image in os.listdir('faces'):
-            faceImage = face_recognition.load_image_file(f'faces/{image}')
-            faceEncoding =  face_recognition.face_encodings(faceImage)[0]
-            self.knownFaceEncodings.append(faceEncoding)
-            self.knownFaceNames.append(image)
-        print(self.knownFaceNames)
+        for user in self.users:
+            imgPath = os.path.join(self.facesFolder, user['user_image'])
+            if not os.path.exists(imgPath):
+                raise FileNotFoundError(f"Missing file: {imgPath}")
+            faceImage = face_recognition.load_image_file(imgPath)
+            encodings = face_recognition.face_encodings(faceImage)
+            if not encodings:
+                raise RuntimeError(f"No face found in {imgPath}")
+            self.knownFaceEncodings.append(encodings[0])
+            self.knownFaceNames.append(user['user_name'])
+        print("Loaded users:", self.knownFaceNames)
 
     """
     This function starts the facial recognition using the webcam. It detects faces in real-time,
@@ -98,7 +109,9 @@ class faceRec:
         percentageStr = percentageStr.rstrip("%")
         percentage = float(percentageStr)
         if distances[bestIndex] <= faceTH:
-            return self.knownFaceNames[bestIndex], percentage
+            nameTemp = self.knownFaceNames[bestIndex]
+            name, ext = os.path.splitext(nameTemp)
+            return name, percentage
         else:
             return None, percentage
 
