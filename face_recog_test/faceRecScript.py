@@ -77,6 +77,28 @@ class faceRec:
                 break
         webcamVideo.release()
         cv2.destroyAllWindows()
+    
+    def authUser(self, cameraIndex = 0, faceTH=0.60):
+        webcamVideo = cv2.VideoCapture(0)
+        if not webcamVideo:
+            raise RuntimeError("Cannot open camera")
+        ret, frame = webcamVideo.read()
+        webcamVideo.release()
+        if not ret:
+            raise RuntimeError("Cannot read frame")
+        small = cv2.resize(frame, (0, 0), fx=0.25, fy=0.25)
+        rgb = np.ascontiguousarray(small[:, :, ::-1])
+        locs = face_recognition.face_locations(rgb)
+        if not locs:
+            return None, 0.0
+        encodings = face_recognition.face_encodings(rgb, locs)
+        distances = face_recognition.face_distance(self.knownFaceEncodings, encodings[0])
+        bestIndex = np.argmin(distances)
+        percentage = float(faceMatchPercentage(distances[bestIndex]))
+        if distances[bestIndex] <= faceTH:
+            return self.knownFaceNames[bestIndex], percentage
+        else:
+            return None, percentage
 
 """
 This function calculates the percentage of a face match based on the face distance.
