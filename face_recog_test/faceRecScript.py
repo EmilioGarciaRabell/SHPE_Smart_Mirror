@@ -94,7 +94,9 @@ class faceRec:
         encodings = face_recognition.face_encodings(rgb, locs)
         distances = face_recognition.face_distance(self.knownFaceEncodings, encodings[0])
         bestIndex = np.argmin(distances)
-        percentage = float(faceMatchPercentage(distances[bestIndex]))
+        percentageStr = faceMatchPercentage(distances[bestIndex])
+        percentageStr.replace("%", "")
+        percentage = float(percentageStr)
         if distances[bestIndex] <= faceTH:
             return self.knownFaceNames[bestIndex], percentage
         else:
