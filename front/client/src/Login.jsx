@@ -2,9 +2,6 @@
 import { useState } from "react";
 
 export default function Login() {
-  const [stage, setStage] = useState("face");    // "face" → try face, then "pin"
-  const [user,  setUser]  = useState("");
-  const [pin,   setPin]   = useState("");
   const API = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
   async function tryFaceLogin() {
@@ -17,7 +14,7 @@ export default function Login() {
       // …navigate to dashboard…
     } else {
       console.log("Face not recognized, falling back to PIN");
-      promptForPin();
+      checkPin();
     }
   }
 
