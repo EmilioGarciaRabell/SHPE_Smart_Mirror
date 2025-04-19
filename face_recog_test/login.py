@@ -16,13 +16,12 @@ def faceLogin() -> dict:
 
 def pinLogin(user: str, pin: str) -> dict:
     auth = fr()
-    for _ in range(3):
-        if user not in auth.userKeys:
-            return {"success": False, "reason": "no_such_user"}
-        if str(auth.userKeys[user]) == str(pin):
-            return {"success": True}
-        else:
-            return {"success": False, "reason": "wrong_pin"}
+    if user not in auth.userKeys:
+        return {"success": False, "reason": "no_such_user"}
+    if str(auth.userKeys[user]) == str(pin):
+        return {"success": True}
+    else:
+        return {"success": False, "reason": "wrong_pin"}
 
 
 def loginTest():
