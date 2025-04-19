@@ -9,7 +9,7 @@ export default function Login() {
 
   async function tryFaceLogin() {
     const res = await fetch(`${API}/api/auth/face`, {
-      method: "POST",
+      method: "GET",
     });
     if (res.ok) {
       const { user } = await res.json();
