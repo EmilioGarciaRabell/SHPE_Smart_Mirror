@@ -25,8 +25,8 @@ const Weather = () =>{
         const { time, temperature_2m_max, temperature_2m_min } = daysWeather.daily
         return time.map((date, index) => (
           <div className='forecast-div' key={date} style={{ marginBottom: '1rem' }}>
-            <h4 className='date-'>{date}</h4>
-            <div>
+            <h4 className='date'>{date}</h4>
+            <div className='"temprature div'>
             <p>Min: {temperature_2m_min[index]}°C</p>
             <p>Max: {temperature_2m_max[index]}°C</p>
             </div>
