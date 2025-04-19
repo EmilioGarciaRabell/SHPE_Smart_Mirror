@@ -2,8 +2,28 @@ from faceRecScript import faceRec as fr
 import time as t
 import getpass as g
 
+def faceLogin() -> dict:
+    auth = fr()
+    start = t.time()
+    frLockOut = 5
+    faceTH = 85
+    while t.time() - start < frLockOut:
+        name, percentage = auth.authUser()
+        if percentage >= faceTH:
+            return {"success": True, "user": name, "percentage": percentage}
+        t.sleep(0.1)
+    return {"success": False, "reason": "face_not_recognized"}
 
-def login():
+def pinLogin(user: str, pin: str) -> dict:
+    auth = fr()
+    if user not in auth.userKeys:
+        return {"success": False, "reason": "no_such_user"}
+    if str(auth.userKeys[user]) == str(pin):
+        return {"success": True}
+    else:
+        return {"success": False, "reason": "wrong_pin"}
+
+def loginTest():
     auth = fr()
     frLockOut = 5
     faceTH = 85
@@ -28,8 +48,4 @@ def login():
     return False
 
 if __name__ == "__main__":
-    userVerification = login()
-    if userVerification == True:
-        print("Go to main menu")
-    else:
-        print("Shut screen off.")
+    loginTest()
