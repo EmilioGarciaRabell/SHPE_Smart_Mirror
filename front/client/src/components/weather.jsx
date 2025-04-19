@@ -1,51 +1,50 @@
-
 import { useEffect, useState } from 'react'
-const Weather = () =>{
 
-    const [daysWeather,setDaysWeather]  = useState(null)
-    let weatherURL = 'http://127.0.0.1:5000/weather'
-    
-    const fetchWeather = async () => {
-        try {
-          const response = await fetch(weatherURL)
-          const data = await response.json()
-          console.log(data.daily.time)
-          setDaysWeather(data)
-        } catch (err) {
-          setError(err.message)
-        }
+const Weather = () => {
+  const [daysWeather, setDaysWeather] = useState(null)
+  const [error, setError] = useState(null)
+  const weatherURL = 'http://127.0.0.1:5000/weather'
+
+  const fetchWeather = async () => {
+    try {
+      const response = await fetch(weatherURL)
+      const data = await response.json()
+      console.log('Fetched data:', data)
+      setDaysWeather(data)
+
+    } catch (err) {
+      console.error(err)
+      setError(err.message)
     }
+  }
 
-    useEffect(() => {
-        fetchWeather()
-      }, [])
+  useEffect(() => {
+    fetchWeather()
+  }, [])
 
+  const renderForecast = () => {
 
-      const renderForecast = () => {
-        const { time, temperature_2m_max, temperature_2m_min } = daysWeather.daily
-        return time.map((date, index) => (
-          <div className='forecast-div' key={date} style={{ marginBottom: '1rem' }}>
-            <h4 className='date'>{date}</h4>
-            <div className='"temprature div'>
-            <p>Min: {temperature_2m_min[index]}°C</p>
-            <p>Max: {temperature_2m_max[index]}°C</p>
-            </div>
-          </div>
-        ))
-      }
-        
-      
+    if (error) return <p style={{ color: 'red' }}>Error: {error}</p>
 
-    return <>
-        <h1>Forecast</h1>
+    if (!daysWeather) return <p>Loading...</p>
 
-        <div>
-            {renderForecast()} 
-        </div>
-        
+    const {time, temperature_2m_max, temperature_2m_min } = daysWeather.daily
+
+    return time.map((date, index) => (
+      <div key={date} style={{ marginBottom: '1rem' }}>
+        <h4>{date}</h4>
+        <p>Min: {temperature_2m_min[index]}°C</p>
+        <p>Max: {temperature_2m_max[index]}°C</p>
+      </div>
+    ))
+  }
+
+  return (
+    <>
+      <h2>7-Day Forecast</h2>
+      <div>{renderForecast()}</div>
     </>
-    
+  )
 }
 
-export default Weather;
-
+export default Weather
