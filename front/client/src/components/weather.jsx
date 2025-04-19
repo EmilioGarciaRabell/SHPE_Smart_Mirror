@@ -26,7 +26,7 @@ const Weather = () => {
 
     if (error) return <p style={{ color: 'red' }}>Error: {error}</p>
 
-    if (!daysWeather) return <p>Loading...</p>
+    if (daysWeather == null) return <p>Loading...</p>
 
     const {time, temperature_2m_max, temperature_2m_min } = daysWeather.daily
 
