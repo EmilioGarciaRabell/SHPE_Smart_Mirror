@@ -16,7 +16,7 @@ def faceAuth():
         return jsonify({"success": True, "user": name}), 200
     return jsonify({"success": False, "error": "face_not_recognized"}), 401
 
-@app.route("/api/auth/pin", methods=["GET"])
+@app.route("/api/auth/pin", methods=["POST"])
 def authPin():
     data = request.get_json() or {}
     user = data.get("user")
