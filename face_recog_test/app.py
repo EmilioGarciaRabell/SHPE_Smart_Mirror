@@ -1,25 +1,34 @@
 from flask import Flask, jsonify, request
-from login import faceLogin, pinLogin
+from faceRecScript import faceRec
 from flask_cors import CORS
 
 
 app = Flask(__name__)
 CORS(app)
 
+fr = faceRec()
+faceTH = 85
+
 @app.route("/api/auth/face", methods=["POST"])
 def faceAuth():
-    result = faceLogin()
-    status = 200 if result["success"] else 401
-    return jsonify(result), status
+    name, percentage = fr.authUser()
+    if percentage >= faceTH:
+        return jsonify({"success": True, "user": name}), 200
+    return jsonify({"success": False, "error": "face_not_recognized"}), 401
 
 @app.route("/api/auth/pin", methods=["POST"])
 def authPin():
-    data = request.get_json(force=True)
-    user = data.get("name")
+    data = request.get_json() or {}
+    user = data.get("user")
     pin = data.get("pin")
-    result = pinLogin(user, pin)
-    status = 200 if result["success"] else 401
-    return jsonify(result), status
+    expected = fr.userKeys.get(user)
+    try:
+        if expected is not None and int(pin) == int(expected):
+            return jsonify({"success": True}), 200
+    except (TypeError, ValueError):
+        pass
+    return jsonify({"success": False, "error": "pin_incorrect"}), 401
+
 
     
 if __name__ == "__main__":

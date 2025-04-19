@@ -8,30 +8,31 @@ export default function Login() {
   const API = import.meta.env.VITE_API_URL || "http://rpi4b.student.rit.edu:5000";
 
   async function tryFaceLogin() {
-    const res  = await fetch(`${API}/api/auth/face`, { method: "POST" });
-    const body = await res.json();
-    if (body.success) {
-      alert(` Welcome ${body.user}!`);
-      // TODO: redirect to your protected page...
+    const res = await fetch(`${API}/api/auth/face`, {
+      method: "POST",
+    });
+    if (res.ok) {
+      const { user } = await res.json();
+      console.log("Welcome back", user);
+      // …navigate to dashboard…
     } else {
-      setUser(body.user || "");
-      setStage("pin");
+      console.log("Face not recognized, falling back to PIN");
+      promptForPin();
     }
   }
 
-  async function tryPinLogin(e) {
-    e.preventDefault();
-    const res  = await fetch(`${API}/api/auth/pin`, {
-      method:  "POST",
+  async function checkPin(user, pin) {
+    const res = await fetch(`${API}/api/auth/pin`, {
+      method: "POST",
       headers: { "Content-Type": "application/json" },
-      body:    JSON.stringify({ user, pin }),
+      body: JSON.stringify({ user, pin }),
     });
-    const body = await res.json();
-    if (body.success) {
-      alert(`✅ Welcome ${user}!`);
-      // TODO: redirect...
+    if (res.ok) {
+      console.log("PIN correct, welcome", user);
+      // …navigate…
     } else {
-      alert(" Wrong PIN, try again");
+      console.error("Bad PIN");
+      // …show error…
     }
   }
 
@@ -47,7 +48,7 @@ export default function Login() {
           <input
             type="password"
             value={pin}
-            onChange={e => setPin(e.target.value)}
+            onChange={e => checkPin(e.target.value)}
           />
           <button type="submit">Submit PIN</button>
         </form>
