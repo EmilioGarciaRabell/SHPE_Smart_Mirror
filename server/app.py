@@ -14,8 +14,8 @@ CORS(app)
 api = Api(app)
 
 # News API config
-API_KEY = os.getenv('NEWSDATA_API_KEY')
-BASE_URL = 'https://newsdata.io/api/1/news'
+NEWSDATA_API_KEY = os.getenv('NEWSDATA_API_KEY')
+NEWSDATA_BASE_URL = 'https://newsdata.io/api/1/news'
 
 # Define Resource (Flask-RESTful style)
 class LocalNews(Resource):
@@ -24,7 +24,7 @@ class LocalNews(Resource):
         city = request.args.get('city', default=None)
 
         params = {
-            'apikey': API_KEY,
+            'apikey': NEWSDATA_API_KEY,
             'country': country,
             'language': 'en',
             'category': 'top'
@@ -34,7 +34,7 @@ class LocalNews(Resource):
             params['q'] = city
 
         try:
-            res = requests.get(BASE_URL, params=params)
+            res = requests.get(NEWSDATA_BASE_URL, params=params)
             res.raise_for_status()
             data = res.json()
             return jsonify(data)
