@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, request
 from faceRecScript import faceRec
 from flask_cors import CORS
+import time as t
 
 
 app = Flask(__name__)
@@ -11,9 +12,13 @@ faceTH = 85
 
 @app.route("/api/auth/face", methods=["GET"])
 def faceAuth():
-    name, percentage = fr.authUser()
-    if percentage >= faceTH:
-        return jsonify({"success": True, "user": name}), 200
+    frLockOut = 5
+    startTime = t.time()
+    while t.time() - startTime < frLockOut:
+        name, percentage = fr.authUser()
+        if percentage >= faceTH:
+            return jsonify({"success": True, "user": name}), 200
+        t.sleep(0.1)
     return jsonify({"success": False, "error": "face_not_recognized"}), 401
 
 @app.route("/api/auth/pin", methods=["POST"])
