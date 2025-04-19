@@ -5,7 +5,7 @@ export default function Login() {
   const [stage, setStage] = useState("face");    // "face" → try face, then "pin"
   const [user,  setUser]  = useState("");
   const [pin,   setPin]   = useState("");
-  const API = import.meta.env.VITE_API_URL || "http://rpi4b.student.rit.edu:5000";
+  const API = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
   async function tryFaceLogin() {
     const res = await fetch(`${API}/api/auth/face`, {
