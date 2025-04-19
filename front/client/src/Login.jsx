@@ -5,9 +5,10 @@ export default function Login() {
   const [stage, setStage] = useState("face");    // "face" → try face, then "pin"
   const [user,  setUser]  = useState("");
   const [pin,   setPin]   = useState("");
+  const API = import.meta.env.VITE_API_URL || "http://rpi4b.student.rit.edu:5000";
 
   async function tryFaceLogin() {
-    const res  = await fetch("/api/auth/face", { method: "POST" });
+    const res  = await fetch(`${API}/api/auth/face`, { method: "POST" });
     const body = await res.json();
     if (body.success) {
       alert(` Welcome ${body.user}!`);
@@ -20,7 +21,7 @@ export default function Login() {
 
   async function tryPinLogin(e) {
     e.preventDefault();
-    const res  = await fetch("/api/auth/pin", {
+    const res  = await fetch(`${API}/api/auth/pin`, {
       method:  "POST",
       headers: { "Content-Type": "application/json" },
       body:    JSON.stringify({ user, pin }),
