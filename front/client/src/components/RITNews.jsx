@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+// import 'RITNews.css';
 const RITNews = () =>{
     const[newsitems, setNewsItems] = useState([]);
     const[loading, setLoading]= useState(true);

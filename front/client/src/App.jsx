@@ -3,7 +3,7 @@
 // import viteLogo from '/vite.svg'
 import './App.css'
 import React from 'react';
-import RITNews from './RITNews';
+import RITNews from './components/RITNews';
 
 const App = () =>{
   return(
