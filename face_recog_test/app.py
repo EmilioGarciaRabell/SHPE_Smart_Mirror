@@ -9,7 +9,7 @@ CORS(app)
 fr = faceRec()
 faceTH = 85
 
-@app.route("/api/auth/face", methods=["POST"])
+@app.route("/api/auth/face", methods=["GET"])
 def faceAuth():
     name, percentage = fr.authUser()
     if percentage >= faceTH:

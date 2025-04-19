@@ -9,13 +9,6 @@ import json
 A data class that handles the facial recognition.
 """
 class faceRec:
-    faceLocations = []
-    faceEncodings = []
-    faceNames = []
-    knownFaceEncodings = []
-    knownFaceNames = []
-    procActualFace = True
-
     """
     This initializes the faceRec data class and encodes the pictures from the 'faces' folder.
     """
@@ -25,6 +18,12 @@ class faceRec:
         self.userKeys = {u['user_name']: u['user_key'] for u in self.users}
         self.facesFolder = facesFolder
         self.encodeFaces()
+        self.faceLocations = []
+        self.faceEncodings = []
+        self.faceNames = []
+        self.knownFaceEncodings = []
+        self.knownFaceNames = []
+        self.procActualFace = True
 
 
     """
