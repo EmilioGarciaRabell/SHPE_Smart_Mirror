@@ -16,7 +16,6 @@ api = Api(app)
 TOMTOM_API_KEY = os.getenv('TOMTOM_API_KEY')
 TRAFFIC_BASE_URL = 'https://api.tomtom.com/traffic/services/4/flowSegmentData/relative0/10/json'
 
-# /api/traffic-level
 class TrafficLevel(Resource):
     def get(self):
         # Hardcoded RIT coordinates
