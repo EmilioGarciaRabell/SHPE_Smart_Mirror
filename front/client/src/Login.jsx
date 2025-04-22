@@ -23,7 +23,7 @@ export default function Login() {
       setCountdown((prev) => prev - 1);
     }, 1000);
   
-    if (countdown === 0) {
+    if (countdown === 1) {
       // Final second: trigger actual registration
       fetch(`${API}/api/auth/register`, {
         method: "POST",
