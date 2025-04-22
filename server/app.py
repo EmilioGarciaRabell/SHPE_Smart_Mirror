@@ -15,40 +15,70 @@ api = Api(app)
 # TomTom API config
 TOMTOM_API_KEY = os.getenv('TOMTOM_API_KEY')
 TRAFFIC_BASE_URL = 'https://api.tomtom.com/traffic/services/4/flowSegmentData/relative0/10/json'
+ROUTE_FLOW_BASE_URL = 'https://api.tomtom.com/traffic/services/4/flowSegmentData/absolute/10/json'
 
 class TrafficLevel(Resource):
     def get(self):
-        # Hardcoded RIT coordinates
-        lat = 43.0848
-        lon = -77.6744
+        # === Point near RIT ===
+        rit_lat = 43.0848
+        rit_lon = -77.6744
 
+        rit_params = {
+            'point': f'{rit_lat},{rit_lon}',
+            'key': TOMTOM_API_KEY
+        }
 
-        params = {
-            'point': f'{lat},{lon}',
+        # === Route from Home (e.g., Genesee St) to RIT ===
+        home_lat = 43.1406
+        home_lon = -77.6355
+        
+
+        route_params = {
+            'point': f'{home_lat},{home_lon}',
+            'to': f'{rit_lat},{rit_lon}',
             'key': TOMTOM_API_KEY
         }
 
         try:
-            res = requests.get(TRAFFIC_BASE_URL, params=params)
-            res.raise_for_status()
-            data = res.json()
+            # Traffic level at RIT
+            rit_res = requests.get(TRAFFIC_BASE_URL, params=rit_params)
+            rit_res.raise_for_status()
+            rit_data = rit_res.json()
 
-            flow = data.get('flowSegmentData', {})
+            flow = rit_data.get('flowSegmentData', {})
             current = flow.get('currentSpeed', 0)
             free_flow = flow.get('freeFlowSpeed', 1)
-
-            congestion = (free_flow - current) / free_flow
-            if congestion < 0.2:
-                level = 'Low'
-            elif congestion < 0.5:
-                level = 'Moderate'
+            rit_congestion = (free_flow - current) / free_flow
+            if rit_congestion < 0.2:
+                rit_level = 'Low'
+            elif rit_congestion < 0.5:
+                rit_level = 'Moderate'
             else:
-                level = 'High'
+                rit_level = 'High'
+
+            # Traffic from Home to RIT
+            route_res = requests.get(ROUTE_FLOW_BASE_URL, params=route_params)
+            route_res.raise_for_status()
+            route_data = route_res.json()
+
+            route_flow = route_data.get('flowSegmentData', {})
+            route_current = route_flow.get('currentSpeed', 0)
+            route_free = route_flow.get('freeFlowSpeed', 1)
+            route_congestion = (route_free - route_current) / route_free
+            if route_congestion < 0.2:
+                route_level = 'Low'
+            elif route_congestion < 0.5:
+                route_level = 'Moderate'
+            else:
+                route_level = 'High'
 
             return jsonify({
-                'traffic_level': level,
-                'current_speed': current,
-                'free_flow_speed': free_flow
+                'traffic_at_rit': rit_level,
+                'current_speed_rit': current,
+                'free_flow_speed_rit': free_flow,
+                'traffic_from_home': route_level,
+                'current_speed_route': route_current,
+                'free_flow_speed_route': route_free
             })
 
         except requests.RequestException as e:

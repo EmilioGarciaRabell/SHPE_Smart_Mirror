@@ -28,19 +28,39 @@ function Traffic() {
 
   return (
     <div>
-      <h2>Traffic Near RIT</h2>
       {loading ? (
         <p>Loading traffic data...</p>
-      ) : traffic && traffic.traffic_level ? (
+      ) : traffic ? (
         <div>
+          {/* Traffic near RIT */}
           <p>
-            Traffic Level:{" "}
-            <strong style={{ color: getColor(traffic.traffic_level) }}>
-              {traffic.traffic_level}
-            </strong>
+            <strong>Near RIT:</strong>{' '}
+            <span style={{ color: getColor(traffic.traffic_at_rit) }}>
+              {traffic.traffic_at_rit}
+            </span>
           </p>
-          <p>Current Speed: {toMPH(traffic.current_speed)} mph</p>
-          <p>Free Flow Speed: {toMPH(traffic.free_flow_speed)} mph</p>
+          <p>
+            Current Speed: {toMPH(traffic.current_speed_rit)} mph
+          </p>
+          <p>
+            Free Flow Speed: {toMPH(traffic.free_flow_speed_rit)} mph
+          </p>
+
+          <br />
+
+          {/* Traffic from Home to RIT */}
+          <p>
+            <strong>From Home to RIT:</strong>{' '}
+            <span style={{ color: getColor(traffic.traffic_from_home) }}>
+              {traffic.traffic_from_home}
+            </span>
+          </p>
+          <p>
+            Current Speed: {toMPH(traffic.current_speed_route)} mph
+          </p>
+          <p>
+            Free Flow Speed: {toMPH(traffic.free_flow_speed_route)} mph
+          </p>
         </div>
       ) : (
         <p>Traffic data not available.</p>
