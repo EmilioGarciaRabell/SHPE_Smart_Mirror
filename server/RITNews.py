@@ -1,6 +1,6 @@
-from flask import render_template
-from flask_restful import Resource
 import requests
+from bs4 import BeautifulSoup
+from flask_restful import Resource
 
 class RITNewsApi(Resource):
     def get(self):
@@ -8,18 +8,19 @@ class RITNewsApi(Resource):
         response = requests.get(url)
         if response.status_code != 200:
             return {'Error': 'Failed to fetch news'}, response.status_code
-        text = response.text
+        news = BeautifulSoup(response.text, 'html.parser')
         news_items = []
-        sections = text.split('<a href="/news/')[1:]
-        for news in sections:
+        articles = news.find_all('article', class_='news-teaser', limit=5)
+        for article_news in articles:
             try:
-                link = news.split('"')[0]
-                title = news.split('>')[1].split('<')[0]
+                a_tag = article_news.find('a')
+                link = a_tag['href']
+                title = a_tag.get_text(strip=True)
                 news_items.append({
-                    'Source':'RIT News',
-                    'title': title.strip(),
-                    'link': f"https://www.rit.edu/news/{link}"
+                    'Source': 'RIT News',
+                    'title': title,
+                    'link': f"https://www.rit.edu{link}" if link.startswith('/') else link
                 })
-            except IndexError:
+            except Exception as e:
                 continue
-        return news_items[:10]
+        return news_items
