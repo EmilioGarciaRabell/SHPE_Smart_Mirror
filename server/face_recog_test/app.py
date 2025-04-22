@@ -54,6 +54,11 @@ def registerUser():
         })
         with open(jsonFile, "w") as f:
             json.dump(users, f, indent=4)
+        fr.users = users
+        fr.userKeys = {u['user_name']: u['user_key'] for u in users}
+        fr.knownFaceEncodings = []
+        fr.knownFaceNames = []
+        fr.encodeFaces()
         return jsonify({"message": "User registered successfully"}), 200
     except Exception as e:
         print("❌ Registration failed with exception:")
