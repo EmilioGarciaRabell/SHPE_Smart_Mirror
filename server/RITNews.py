@@ -22,7 +22,7 @@ class RITNewsApi(Resource):
                 full_link = f"https://www.rit.edu{link}" if link.startswith('/') else link
                 title = a_tag.get_text(strip=True)
 
-                desc_tag = article.find('div', class_='field__item') or article.find('p')
+                desc_tag = article.find('div', class_='card-text')
                 description = desc_tag.get_text(strip=True) if desc_tag else ''
 
                 news_items.append({
@@ -30,7 +30,7 @@ class RITNewsApi(Resource):
                     'title': title,
                     'link': full_link,
                     'description': description,
-                    'pubDate': datetime.utcnow().isoformat()
+                    'pubDate': datetime.utcnow().date().isoformat()
                 })
             except Exception:
                 continue
