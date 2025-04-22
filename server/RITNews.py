@@ -22,7 +22,6 @@ class RITNewsApi(Resource):
                 full_link = f"https://www.rit.edu{link}" if link.startswith('/') else link
                 title = a_tag.get_text(strip=True)
 
-                # Attempt to grab a short description from a <div>, <p>, or use title fallback
                 desc_tag = article.find('div', class_='field__item') or article.find('p')
                 description = desc_tag.get_text(strip=True) if desc_tag else ''
 

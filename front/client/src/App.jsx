@@ -49,7 +49,7 @@ function App() {
         className="panel-container"
         style={{
           display: 'flex',
-          flexDirection: 'column-reverse', // now using regular stacking
+          flexDirection: 'column-reverse',
           gap: '20px',
           position: 'absolute',
           bottom: '80px',

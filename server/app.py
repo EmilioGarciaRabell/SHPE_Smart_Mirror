@@ -14,7 +14,6 @@ app = Flask(__name__)
 CORS(app)
 api = Api(app)
 
-# Register RITNews route BEFORE creating another app (this was the issue!)
 api.add_resource(RITNewsApi, "/RITNews")
 
 
