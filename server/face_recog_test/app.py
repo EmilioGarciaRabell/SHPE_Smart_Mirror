@@ -39,7 +39,10 @@ def registerUser():
     else:
         with open(jsonFile, "r") as f:
             users = json.load(f)
+    existingIds = [user.get("user_id", 0) for user in users if isinstance(user.get("user_id"), int)]
+    nextId = max(existingIds, default=0) + 1
     users.append({
+        "user_id": nextId,
         "user_name": userName,
         "user_key": userKey,
         "user_image": pictureName

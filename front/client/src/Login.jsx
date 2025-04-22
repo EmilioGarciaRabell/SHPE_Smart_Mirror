@@ -25,6 +25,7 @@ export default function Login() {
   const [user, setUser] = useState("");
   const [pin, setPin] = useState("");
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
   async function tryFaceLogin() {
     setError("");
@@ -69,6 +70,34 @@ export default function Login() {
     }
   }
 
+  async function tryRegisterUser(e) {
+    e.preventDefault();
+    setError("");
+    setSuccess("");
+    if (!user || !pin) {
+      setError("Please enter both username and PIN.");
+      return;
+    }
+    try {
+      const res = await fetch(`${API}/api/auth/register`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ user_name: user, user_key: pin }),
+      });
+      if (res.ok) {
+        setSuccess("User registered successfully!");
+        setUser("");
+        setPin("");
+        setStage("face");
+      } else {
+        const msg = await res.json();
+        setError(msg.error || "Registration failed.");
+      }
+    } catch (e) {
+      setError("Registration error.");
+    }
+  }
+
   function getGreeting() {
     const hour = dateTime.getHours();
     if (hour < 12) return "Good morning";
@@ -78,52 +107,45 @@ export default function Login() {
 
   return (
     <div className="login-container">
-  <div className="login-header">
-    <div className="time"><strong>{formattedTime}</strong></div>
-    <div className="date">{formattedDate}</div>
-  </div>
+      <div className="login-header">
+        <div className="time"><strong>{formattedTime}</strong></div>
+        <div className="date">{formattedDate}</div>
+      </div>
 
-  <hr className="login-divider" />
+      <hr className="login-divider" />
 
-  <div className="login-box">
-    {stage === "face" ? (
-      <>
+      <div className="login-box">
         <h1>{getGreeting()}!</h1>
         <p>Welcome to the Smart Mirror</p>
-        <button className="login-button" onClick={tryFaceLogin}>
-          Login with Face
-        </button>
-      </>
-    ) : (
-      <>
-        <h1>PIN Login</h1>
-        <p>Face not recognized. Please enter your credentials:</p>
-        <form onSubmit={tryPinLogin} className="pin-form">
-          <input
-            type="text"
-            placeholder="Username"
-            value={user}
-            onChange={(e) => setUser(e.target.value)}
-            className="login-input"
-          />
-          <input
-            type="password"
-            placeholder="PIN"
-            value={pin}
-            onChange={(e) => setPin(e.target.value)}
-            className="login-input"
-          />
-          {error && <p className="error-message">{error}</p>}
-          <button type="submit" className="login-button">
-            Login with PIN
-          </button>
-        </form>
-      </>
-    )}
-  </div>
-</div>
 
-  
+        {stage === "face" && (
+          <>
+            <button className="login-button" onClick={tryFaceLogin}>🧑‍🦱 Login with Face</button>
+            <button className="login-button" onClick={() => setStage("register")}>➕ Register New User</button>
+          </>
+        )}
 
+        {stage === "pin" && (
+          <form onSubmit={tryPinLogin}>
+            <input type="text" placeholder="Username" value={user} onChange={e => setUser(e.target.value)} />
+            <input type="password" placeholder="PIN" value={pin} onChange={e => setPin(e.target.value)} />
+            <button type="submit" className="login-button">🔑 Login with PIN</button>
+            <button type="button" onClick={() => setStage("face")}>⬅ Back</button>
+          </form>
+        )}
+
+        {stage === "register" && (
+          <form onSubmit={tryRegisterUser}>
+            <input type="text" placeholder="New Username" value={user} onChange={e => setUser(e.target.value)} />
+            <input type="password" placeholder="New PIN" value={pin} onChange={e => setPin(e.target.value)} />
+            <button type="submit" className="login-button">📸 Register with Face</button>
+            <button type="button" onClick={() => setStage("face")}>⬅ Back</button>
+          </form>
+        )}
+
+        {error && <p className="error-text">{error}</p>}
+        {success && <p className="success-text">{success}</p>}
+      </div>
+    </div>
   );
 }
