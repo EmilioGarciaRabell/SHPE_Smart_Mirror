@@ -23,28 +23,37 @@ const Weather = () => {
   }, [])
 
   const renderForecast = () => {
+    if (error){
+      return <p style={{ color: 'red' }}>Error: {error}</p>
+    } 
 
-    if (error) return <p style={{ color: 'red' }}>Error: {error}</p>
-
-    if (daysWeather == null) return <p>Loading...</p>
+    if (daysWeather == null) {
+      return <p>Loading...</p>
+    }
+      
 
     const {time, temperature_2m_max, temperature_2m_min } = daysWeather.daily
 
     return time.map((date, index) => (
-      <div key={date} style={{ marginBottom: '1rem' }}>
-        <h4>{date}</h4>
-        <p>Min: {temperature_2m_min[index]}°C</p>
-        <p>Max: {temperature_2m_max[index]}°C</p>
+      <div className='weather-div' key={date} style={{ marginBottom: '1rem' }}>
+        <h4 className='col'>{date}</h4>
+        <p className='col'>Min: {temperature_2m_min[index]}°C</p>
+        <p className='col'>Max: {temperature_2m_max[index]}°C</p>
       </div>
     ))
   }
 
+
   return (
     <>
+    <div className='main-div'>
       <h2>7-Day Forecast</h2>
       <div>{renderForecast()}</div>
+    </div>
+     
     </>
   )
 }
+
 
 export default Weather

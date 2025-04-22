@@ -5,7 +5,7 @@ from flask_restful import Resource
 from flask_restful import request
 from flask_restful import reqparse
 
-import os, requests
+import requests
 
 
 class Weather(Resource):

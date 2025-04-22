@@ -40,3 +40,17 @@
 .read-the-docs {
   color: #888;
 }
+.main-div{
+  display: flex;
+  flex-direction: column;
+}
+
+.weather-div{
+display: flex;
+flex-direction: row;
+}
+
+.col{
+  width: 33.33%; 
+  padding: 10px;
+}
