@@ -3,13 +3,15 @@ import NewsPanel from './components/NewsPanel';
 import TrafficPanel from './components/TrafficPanel';
 import RITNews from './components/RITNewsPanel';
 import ArticlePanel from './components/ArticlePanel';
+import DateTime from './components/DateTime';
 import { useState } from 'react';
-import { FaNewspaper, FaCar, FaUniversity } from 'react-icons/fa';
+import { FaNewspaper, FaCar, FaUniversity, FaClock } from 'react-icons/fa';
 
 function App() {
   const [openPanels, setOpenPanels] = useState([]); // panel queue
   const [selectedArticle, setSelectedArticle] = useState(null); // article to show
   const [articleSourcePanel, setArticleSourcePanel] = useState(null); // 'news' or 'rit'
+  const [showDateTime, setShowDateTime] = useState(true);
 
   const openPanel = (panelKey) => {
     let updated = [...openPanels];
@@ -45,6 +47,33 @@ function App() {
 
   return (
     <div className="mirror">
+      {/* DateTime bar at top */}
+      {showDateTime && (
+        <>
+        <div
+          style={{
+            position: 'absolute',
+            top: 0,
+            width: '100%',
+            display: 'flex',
+            justifyContent: 'center',
+            zIndex: 1000,
+          }}
+        >
+          <div
+            style={{
+              width: '90%',
+              borderBottom: '1px solid #fff',
+            }}
+          >
+            <DateTime />
+          </div>
+        </div>
+
+        </>
+      )}
+
+      {/* Panels */}
       <div
         className="panel-container"
         style={{
@@ -116,8 +145,7 @@ function App() {
         })}
       </div>
 
-
-
+      {/* Bottom buttons */}
       <div className="bottom-bar-wrapper">
         <div className="bottom-bar">
           <button onClick={() => openPanel('news')}>
@@ -125,6 +153,9 @@ function App() {
           </button>
           <button onClick={() => openPanel('rit')}>
             <FaUniversity size={20} />
+          </button>
+          <button onClick={() => setShowDateTime(!showDateTime)}>
+            <FaClock size={20} />
           </button>
           <button onClick={() => openPanel('traffic')}>
             <FaCar size={20} />
