@@ -6,29 +6,35 @@ import { useState } from 'react';
 import { FaNewspaper, FaCar } from 'react-icons/fa';
 
 function App() {
-  const [openPanels, setOpenPanels] = useState(new Set());
+  const [openPanels, setOpenPanels] = useState([]); // now an array, acts like a queue
   const [selectedArticle, setSelectedArticle] = useState(null);
 
-  const togglePanel = (panelKey) => {
-    const newSet = new Set(openPanels);
-    if (newSet.has(panelKey)) {
-      newSet.delete(panelKey);
-    } else {
-      newSet.add(panelKey);
+  const openPanel = (panelKey) => {
+    let updated = [...openPanels];
+
+    // Reset article if changing news view
+    if (panelKey !== 'news') setSelectedArticle(null);
+
+    // If it's already open, do nothing
+    if (updated.includes(panelKey)) return;
+
+    // Enforce max 2 panels
+    if (updated.length >= 2) {
+      updated.shift(); // remove oldest
     }
-    setSelectedArticle(null); // always reset article view on toggle
-    setOpenPanels(newSet);
+
+    updated.push(panelKey);
+    setOpenPanels(updated);
   };
 
   const closePanel = (panelKey) => {
-    const newSet = new Set(openPanels);
-    newSet.delete(panelKey);
-    setOpenPanels(newSet);
+    const updated = openPanels.filter((key) => key !== panelKey);
+    setOpenPanels(updated);
+    if (panelKey === 'news') setSelectedArticle(null);
   };
 
   return (
     <div className="mirror">
-      {/* Panel stack (bottom-up) */}
       <div
         className="panel-container"
         style={{
@@ -42,35 +48,32 @@ function App() {
           overflowY: 'auto',
         }}
       >
-        {openPanels.has('news') && !selectedArticle && (
+        {openPanels.includes('news') && !selectedArticle && (
           <NewsPanel
             onClose={() => closePanel('news')}
             onArticleSelect={(article) => setSelectedArticle(article)}
           />
         )}
 
-        {openPanels.has('news') && selectedArticle && (
+        {openPanels.includes('news') && selectedArticle && (
           <ArticlePanel
             article={selectedArticle}
             onClose={() => setSelectedArticle(null)}
           />
         )}
 
-        {openPanels.has('traffic') && (
+        {openPanels.includes('traffic') && (
           <TrafficPanel onClose={() => closePanel('traffic')} />
         )}
       </div>
-
-      {/* Bottom button bar */}
       <div className='bottom-bar-wrapper'>
         <div className="bottom-bar">
-          <button onClick={() => togglePanel('news')}>
+          <button onClick={() => openPanel('news')}>
             <FaNewspaper size={20} />
           </button>
-          <button onClick={() => togglePanel('traffic')}>
+          <button onClick={() => openPanel('traffic')}>
             <FaCar size={20} />
           </button>
-          {/* Add more panel buttons here */}
         </div>
       </div>
     </div>
