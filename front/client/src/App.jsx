@@ -1,26 +1,31 @@
 import './App.css';
 import NewsPanel from './components/NewsPanel';
 import TrafficPanel from './components/TrafficPanel';
+import RITNews from './components/RITNewsPanel';
 import ArticlePanel from './components/ArticlePanel';
 import { useState } from 'react';
-import { FaNewspaper, FaCar } from 'react-icons/fa';
+import { FaNewspaper, FaCar, FaUniversity } from 'react-icons/fa';
 
 function App() {
-  const [openPanels, setOpenPanels] = useState([]); // now an array, acts like a queue
-  const [selectedArticle, setSelectedArticle] = useState(null);
+  const [openPanels, setOpenPanels] = useState([]); // panel queue
+  const [selectedArticle, setSelectedArticle] = useState(null); // article to show
+  const [articleSourcePanel, setArticleSourcePanel] = useState(null); // 'news' or 'rit'
 
   const openPanel = (panelKey) => {
     let updated = [...openPanels];
 
-    // Reset article if changing news view
-    if (panelKey !== 'news') setSelectedArticle(null);
+    // Reset article if switching to a non-article panel
+    if (panelKey !== 'news' && panelKey !== 'rit') {
+      setSelectedArticle(null);
+      setArticleSourcePanel(null);
+    }
 
-    // If it's already open, do nothing
+    // Already open? do nothing
     if (updated.includes(panelKey)) return;
 
     // Enforce max 2 panels
     if (updated.length >= 2) {
-      updated.shift(); // remove oldest
+      updated.shift();
     }
 
     updated.push(panelKey);
@@ -30,7 +35,12 @@ function App() {
   const closePanel = (panelKey) => {
     const updated = openPanels.filter((key) => key !== panelKey);
     setOpenPanels(updated);
-    if (panelKey === 'news') setSelectedArticle(null);
+
+    // Clear article only if its source is closing
+    if (panelKey === articleSourcePanel) {
+      setSelectedArticle(null);
+      setArticleSourcePanel(null);
+    }
   };
 
   return (
@@ -39,7 +49,7 @@ function App() {
         className="panel-container"
         style={{
           display: 'flex',
-          flexDirection: 'column-reverse',
+          flexDirection: 'column-reverse', // now using regular stacking
           gap: '20px',
           position: 'absolute',
           bottom: '80px',
@@ -48,28 +58,73 @@ function App() {
           overflowY: 'auto',
         }}
       >
-        {openPanels.includes('news') && !selectedArticle && (
-          <NewsPanel
-            onClose={() => closePanel('news')}
-            onArticleSelect={(article) => setSelectedArticle(article)}
-          />
-        )}
+        {[...openPanels].reverse().map((panelKey) => {
+          if (panelKey === 'news') {
+            return articleSourcePanel === 'news' && selectedArticle ? (
+              <ArticlePanel
+                key="article-from-news"
+                article={selectedArticle}
+                onClose={() => {
+                  setSelectedArticle(null);
+                  setArticleSourcePanel(null);
+                }}
+              />
+            ) : (
+              <NewsPanel
+                key="news"
+                onClose={() => closePanel('news')}
+                onArticleSelect={(article) => {
+                  setSelectedArticle(article);
+                  setArticleSourcePanel('news');
+                }}
+              />
+            );
+          }
 
-        {openPanels.includes('news') && selectedArticle && (
-          <ArticlePanel
-            article={selectedArticle}
-            onClose={() => setSelectedArticle(null)}
-          />
-        )}
+          if (panelKey === 'rit') {
+            return articleSourcePanel === 'rit' && selectedArticle ? (
+              <ArticlePanel
+                key="article-from-rit"
+                article={selectedArticle}
+                onClose={() => {
+                  setSelectedArticle(null);
+                  setArticleSourcePanel(null);
+                }}
+              />
+            ) : (
+              <RITNews
+                key="rit"
+                onClose={() => closePanel('rit')}
+                onArticleSelect={(article) => {
+                  setSelectedArticle(article);
+                  setArticleSourcePanel('rit');
+                }}
+              />
+            );
+          }
 
-        {openPanels.includes('traffic') && (
-          <TrafficPanel onClose={() => closePanel('traffic')} />
-        )}
+          if (panelKey === 'traffic') {
+            return (
+              <TrafficPanel
+                key="traffic"
+                onClose={() => closePanel('traffic')}
+              />
+            );
+          }
+
+          return null;
+        })}
       </div>
-      <div className='bottom-bar-wrapper'>
+
+
+
+      <div className="bottom-bar-wrapper">
         <div className="bottom-bar">
           <button onClick={() => openPanel('news')}>
             <FaNewspaper size={20} />
+          </button>
+          <button onClick={() => openPanel('rit')}>
+            <FaUniversity size={20} />
           </button>
           <button onClick={() => openPanel('traffic')}>
             <FaCar size={20} />

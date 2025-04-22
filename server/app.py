@@ -7,17 +7,16 @@ import requests
 import os
 from dotenv import load_dotenv
 
-app = Flask(__name__) #create Flask instance
-CORS(app) #Enable CORS on Flask server to work with Nodejs pages
-api = Api(app) #api router
-api.add_resource(RITNewsApi, "/RITNews")
-
 # Load .env variables
 load_dotenv()
 
 app = Flask(__name__)
 CORS(app)
 api = Api(app)
+
+# Register RITNews route BEFORE creating another app (this was the issue!)
+api.add_resource(RITNewsApi, "/RITNews")
+
 
 # TomTom API config
 TOMTOM_API_KEY = os.getenv('TOMTOM_API_KEY')
