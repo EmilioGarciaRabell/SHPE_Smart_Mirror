@@ -33,8 +33,9 @@ def registerUser():
             return jsonify({"error": "Webcam not found"}), 500
         t.sleep(2)
         for _ in range(5):
-            cam.release()
+            cam.read()
         ret, frame = cam.read()
+        cam.release()
         if not ret:
             return jsonify({"error": "Failed to capture image"}), 500
         cv2.imwrite(picturePath, frame)
