@@ -1,18 +1,17 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import News from './components/News'
-
+import { useState } from 'react';
+import './App.css';
+import News from './components/News';
+import Traffic from './components/Traffic';
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
+    <div className="App">
+      <h1>Traffic Conditions</h1>
+      <Traffic />
+      <hr style={{ margin: '40px 0' }} />
       <News country="us" city="Rochester" />
-    </>
-  )  
+    </div>
+  );
 }
 
-export default App
+export default App;
