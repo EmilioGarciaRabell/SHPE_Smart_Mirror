@@ -5,6 +5,7 @@ import time as t
 import cv2
 import os
 import json
+import traceback
 
 
 app = Flask(__name__)
@@ -19,39 +20,44 @@ facesFolder = os.path.join(BASE_DIR, "faces")
 
 @app.route("/api/auth/register", methods=["POST"])
 def registerUser():
-    userData =  request.get_json()
-    userName = userData.get("user_name")
-    userKey = userData.get("user_key")
-    if not userName or not userKey:
-        return jsonify({"error": "Missing username or key"}), 400
-    pictureName = f"{userName}.jpg"
-    picturePath = os.path.join(facesFolder, pictureName)
-    cam = cv2.VideoCapture(0)
-    if not cam.isOpened():
-        return jsonify({"error": "Webcam not found"}), 500
-    t.sleep(2)
-    for _ in range(5):
-        cam.release()
-    ret, frame = cam.read()
-    if not ret:
-        return jsonify({"error": "Failed to capture image"}), 500
-    cv2.imwrite(picturePath, frame)
-    if not os.path.exists(jsonFile):
-        users = []
-    else:
-        with open(jsonFile, "r") as f:
-            users = json.load(f)
-    existingIds = [user.get("user_id", 0) for user in users if isinstance(user.get("user_id"), int)]
-    nextId = max(existingIds, default=0) + 1
-    users.append({
-        "user_id": nextId,
-        "user_name": userName,
-        "user_key": userKey,
-        "user_image": pictureName
-    })
-    with open(jsonFile, "w") as f:
-        json.dump(users, f, indent=4)
-    return jsonify({"message": "User registered successfully"}), 200
+    try:
+        userData =  request.get_json()
+        userName = userData.get("user_name")
+        userKey = userData.get("user_key")
+        if not userName or not userKey:
+            return jsonify({"error": "Missing username or key"}), 400
+        pictureName = f"{userName}.jpg"
+        picturePath = os.path.join(facesFolder, pictureName)
+        cam = cv2.VideoCapture(0)
+        if not cam.isOpened():
+            return jsonify({"error": "Webcam not found"}), 500
+        t.sleep(2)
+        for _ in range(5):
+            cam.release()
+        ret, frame = cam.read()
+        if not ret:
+            return jsonify({"error": "Failed to capture image"}), 500
+        cv2.imwrite(picturePath, frame)
+        if not os.path.exists(jsonFile):
+            users = []
+        else:
+            with open(jsonFile, "r") as f:
+                users = json.load(f)
+        existingIds = [user.get("user_id", 0) for user in users if isinstance(user.get("user_id"), int)]
+        nextId = max(existingIds, default=0) + 1
+        users.append({
+            "user_id": nextId,
+            "user_name": userName,
+            "user_key": userKey,
+            "user_image": pictureName
+        })
+        with open(jsonFile, "w") as f:
+            json.dump(users, f, indent=4)
+        return jsonify({"message": "User registered successfully"}), 200
+    except Exception as e:
+        print("❌ Registration failed with exception:")
+        traceback.print_exc()
+        return jsonify({"error": "Internal server error"}), 500
 
 
 @app.route("/api/auth/face", methods=["GET"])
