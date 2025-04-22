@@ -1,0 +1,83 @@
+/* Main layout */
+.login-container {
+    height: 100vh;
+    width: 100vw;
+    background-color: #1e1e1e;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    padding: 2rem;
+    box-sizing: border-box;
+  }
+  
+  /* Top header: time left, date right */
+  .login-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: monospace;
+    font-size: 2rem;
+    font-weight: 600;
+  }
+  
+  .time, .date {
+    flex: 1;
+  }
+  
+  .time {
+    text-align: left;
+  }
+  
+  .date {
+    text-align: right;
+    font-size: 1.6rem;
+    font-weight: 400;
+  }
+  
+  /* Divider line */
+  .login-divider {
+    border: none;
+    border-top: 2px solid #444;
+    margin: 1rem 0 3rem 0;
+  }
+  
+  /* Centered login box */
+  .login-box {
+    margin: 0 auto;
+    background-color: #2a2a2a;
+    padding: 2.5rem 3.5rem;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 0 20px rgba(0,0,0,0.4);
+    max-width: 400px;
+  }
+  
+  .login-box h1 {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .login-box p {
+    font-size: 1rem;
+    color: #ccc;
+    margin-bottom: 1.2rem;
+  }
+  
+  /* Button styling */
+  .login-button {
+    padding: 0.7rem 1.4rem;
+    font-size: 0.95rem;
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .login-button:hover {
+    background-color: #555;
+  }
+  

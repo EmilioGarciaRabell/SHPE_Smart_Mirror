@@ -12,7 +12,7 @@ class faceRec:
     """
     This initializes the faceRec data class and encodes the pictures from the 'faces' folder.
     """
-    def __init__(self, usersFileIn = 'face_recog_test/users.json', facesFolder = 'face_recog_test/faces'):
+    def __init__(self, usersFileIn = 'users.json', facesFolder = 'faces'):
         with open(usersFileIn, 'r') as f:
             self.users = json.load(f)
         self.userKeys = {u['user_name']: u['user_key'] for u in self.users}
