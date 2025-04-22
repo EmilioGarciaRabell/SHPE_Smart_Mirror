@@ -46,7 +46,11 @@ function Traffic() {
             Free Flow Speed: {toMPH(traffic.free_flow_speed_rit)} mph
           </p>
 
-          <br />
+          <hr style={{
+                border: 'none',
+                borderTop: '1px solid #444',
+                margin: '8px 0'
+              }} />
 
           {/* Traffic from Home to RIT */}
           <p>

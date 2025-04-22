@@ -111,10 +111,17 @@ class LocalNews(Resource):
         try:
             res = requests.get(NEWSDATA_BASE_URL, params=params)
             res.raise_for_status()
-            data = res.json()
+
+            try:
+                data = res.json()
+            except ValueError:
+                return jsonify({'error': 'Invalid JSON response from NewsData API'}), 502
+
             return jsonify(data)
+
         except requests.RequestException as e:
             return jsonify({'error': str(e)}), 500
+
 
 # Register route
 api.add_resource(TrafficLevel, '/api/traffic-level')
