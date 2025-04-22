@@ -33,5 +33,15 @@ def control_led(action):
     except subprocess.CalledProcessError as e:
         return jsonify({'status': 'error', 'message': e.output.decode().strip()}), 500
 
+@app.route('/api/face_recognition', methods=['GET'])
+def face_recognition():
+    try:
+        # Call the faceRecScript.py script
+        output = subprocess.check_output(['python3', 'face_recog_test/faceRecScript.py'])
+        message = output.decode().strip()
+        return jsonify({'status': 'ok', 'message': message})
+    except subprocess.CalledProcessError as e:
+        return jsonify({'status': 'error', 'message': e.output.decode().strip()}), 500
+
 if __name__ == '__main__':
     app.run(debug=True)
