@@ -7,12 +7,48 @@ export default function Login() {
   const API = import.meta.env.VITE_API_URL || "http://localhost:5000";
   const [dateTime, setDateTime] = useState(new Date());
   const navigate = useNavigate();
+  const [countdown, setCountdown] = useState(null); // null = not counting
+
 
 
   useEffect(() => {
     const timer = setInterval(() => setDateTime(new Date()), 1000);
     return () => clearInterval(timer);
   }, []);
+
+  useEffect(() => {
+    if (countdown === null || countdown <= 0) return;
+  
+    const timer = setTimeout(() => {
+      setCountdown((prev) => prev - 1);
+    }, 1000);
+  
+    if (countdown === 0) {
+      // Final second: trigger actual registration
+      fetch(`${API}/api/auth/register`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ user_name: user, user_key: pin }),
+      })
+        .then((res) => res.json().then(data => ({ ok: res.ok, data })))
+        .then(({ ok, data }) => {
+          if (ok) {
+            setSuccess("User registered successfully!");
+            setUser("");
+            setPin("");
+            setStage("face");
+          } else {
+            setError(data.error || "Registration failed.");
+          }
+        })
+        .catch(() => {
+          setError("Registration error.");
+        })
+        .finally(() => setCountdown(null));
+    }
+  
+    return () => clearTimeout(timer);
+  }, [countdown]);
 
   const formattedTime = dateTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   const formattedDate = dateTime.toLocaleDateString([], {
@@ -78,24 +114,7 @@ export default function Login() {
       setError("Please enter both username and PIN.");
       return;
     }
-    try {
-      const res = await fetch(`${API}/api/auth/register`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ user_name: user, user_key: pin }),
-      });
-      if (res.ok) {
-        setSuccess("User registered successfully!");
-        setUser("");
-        setPin("");
-        setStage("face");
-      } else {
-        const msg = await res.json();
-        setError(msg.error || "Registration failed.");
-      }
-    } catch (e) {
-      setError("Registration error.");
-    }
+    setCountdown(3);
   }
 
   function getGreeting() {
@@ -141,6 +160,10 @@ export default function Login() {
             <button type="submit" className="login-button">📸 Register with Face</button>
             <button type="button" onClick={() => setStage("face")}>⬅ Back</button>
           </form>
+        )}
+
+        {countdown !== null && (
+          <p className="countdown-text">📸 Taking picture in... {countdown}</p>
         )}
 
         {error && <p className="error-text">{error}</p>}

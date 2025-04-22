@@ -80,4 +80,12 @@
   .login-button:hover {
     background-color: #555;
   }
+
+  .countdown-text {
+    font-size: 1.2em;
+    color: #555;
+    margin-top: 10px;
+    font-weight: bold;
+  }
+  
   
