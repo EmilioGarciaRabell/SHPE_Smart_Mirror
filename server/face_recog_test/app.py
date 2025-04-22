@@ -12,8 +12,10 @@ CORS(app)
 
 fr = faceRec()
 faceTH = 85
-jsonFile = "users.json"
-facesFolder = "/faces"
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+jsonFile = os.path.join(BASE_DIR, "users.json")
+facesFolder = os.path.join(BASE_DIR, "faces")
+
 
 @app.route("/api/auth/register", methods=["POST"])
 def registerUser():

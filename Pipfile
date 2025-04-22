@@ -9,12 +9,6 @@ gpiozero = "*"
 pigpio = "*"
 gpiod = "*"
 lgpio = "*"
-flask = "==2.2.2"
-flask-cors = "==3.0.10"
-flask-restful = "==0.3.9"
-psycopg2-binary = "*"
-face-recognition = "*"
-opencv-python = "*"
 
 [dev-packages]
 
