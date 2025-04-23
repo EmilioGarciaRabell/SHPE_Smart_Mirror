@@ -205,7 +205,7 @@ export default function Login() {
           </form>
         )}
         {incorrectPinLock > 0 && (
-          <p className="error-text">⏳ Too many attempts. Try again in {lockoutTime} seconds.</p>
+          <p className="error-text">⏳ Too many attempts. Try again in {incorrectPinLock} seconds.</p>
         )}
         {countdown !== null && (
           <p className="countdown-text">Taking picture in... {countdown}</p>
