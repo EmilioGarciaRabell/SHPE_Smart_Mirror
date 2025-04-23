@@ -27,6 +27,7 @@ export default function IdlePage() {
         <div className="time">{formattedTime}</div>
         <div className="date">{formattedDate}</div>
       </div>
+      <hr className="login-divider" />
     </div>
   );
 }
