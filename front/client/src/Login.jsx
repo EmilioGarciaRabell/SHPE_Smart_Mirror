@@ -204,7 +204,7 @@ export default function Login() {
             <button type="button" onClick={() => setStage("face")}>Back</button>
           </form>
         )}
-        {lockoutTime > 0 && (
+        {incorrectPinLock > 0 && (
           <p className="error-text">⏳ Too many attempts. Try again in {lockoutTime} seconds.</p>
         )}
         {countdown !== null && (
