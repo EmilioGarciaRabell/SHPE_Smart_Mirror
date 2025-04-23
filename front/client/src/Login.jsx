@@ -8,8 +8,9 @@ export default function Login() {
   const [dateTime, setDateTime] = useState(new Date());
   const navigate = useNavigate();
   const [countdown, setCountdown] = useState(null); // null = not counting
-  const sleepTimer = 10*1000;
-  //const sleepTimer = 5*60*1000;
+  const sleepTimer = 60*1000;// 1 minute timer
+  const [incorrectPin, setIncorrectPin] = useState(0);
+  const [incorrectPinLock, setIncorrectPinLock] = useState(0);
 
   const resetSleepTimer = useCallback(() => {
     clearTimeout(window._idleTimer);
@@ -18,6 +19,22 @@ export default function Login() {
       navigate("/");
     }, sleepTimer);
   }, [navigate]);
+
+  useEffect(() => {
+    if(incorrectPinLock <= 0) return;
+    const timer = setInterval(() => {
+      setIncorrectPinLock(() => {
+        if(prev <= 1){
+          clearInterval(timer);
+          setIncorrectPin(0);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+    return () => clearInterval(timer);
+  }, [incorrectPinLock]);
+
 
   useEffect(() => {
     resetSleepTimer();
@@ -114,9 +131,17 @@ export default function Login() {
       });
       if (res.ok) {
         console.log("PIN correct, welcome", user);
+        setIncorrectPin(0);
         navigate("/main");
       } else {
-        setError("Incorrect PIN, please try again.");
+        const newPinTries = incorrectPin + 1;
+        setIncorrectPin(newPinTries);
+        if(newPinTries >= 3){
+          setIncorrectPinLock(30);
+          setError("Too many pin attempts, wait 30 seconds!");
+        }else{
+          setError("Incorrect PIN, please try again.");
+        }
       }
     } catch (e) {
       console.error("Network or server error:", e);
@@ -157,17 +182,17 @@ export default function Login() {
 
         {stage === "face" && (
           <>
-            <button className="login-button" onClick={tryFaceLogin}>🧑‍🦱 Login with Face</button>
+            <button className="login-button" onClick={tryFaceLogin}>Login with Face</button>
             <button className="login-button" onClick={() => setStage("register")}>➕ Register New User</button>
           </>
         )}
 
         {stage === "pin" && (
           <form onSubmit={tryPinLogin}>
-            <input type="text" placeholder="Username" value={user} onChange={e => setUser(e.target.value)} />
-            <input type="password" placeholder="PIN" value={pin} onChange={e => setPin(e.target.value)} />
-            <button type="submit" className="login-button">🔑 Login with PIN</button>
-            <button type="button" onClick={() => setStage("face")}>⬅ Back</button>
+            <input type="text" placeholder="Username" value={user} onChange={e => setUser(e.target.value)} disabled={incorrectPinLock > 0}/>
+            <input type="password" placeholder="PIN" value={pin} onChange={e => setPin(e.target.value)} disabled={incorrectPinLock > 0}/>
+            <button type="submit" disabled={incorrectPinLock > 0} className="login-button">Login with PIN </button>
+            <button type="button" disabled={incorrectPinLock > 0} onClick={() => setStage("face")}>Back</button>
           </form>
         )}
 
@@ -175,15 +200,16 @@ export default function Login() {
           <form onSubmit={tryRegisterUser}>
             <input type="text" placeholder="New Username" value={user} onChange={e => setUser(e.target.value)} />
             <input type="password" placeholder="New PIN" value={pin} onChange={e => setPin(e.target.value)} />
-            <button type="submit" className="login-button">📸 Register with Face</button>
-            <button type="button" onClick={() => setStage("face")}>⬅ Back</button>
+            <button type="submit" className="login-button">Register with Face</button>
+            <button type="button" onClick={() => setStage("face")}>Back</button>
           </form>
         )}
-
-        {countdown !== null && (
-          <p className="countdown-text">📸 Taking picture in... {countdown}</p>
+        {lockoutTime > 0 && (
+          <p className="error-text">⏳ Too many attempts. Try again in {lockoutTime} seconds.</p>
         )}
-
+        {countdown !== null && (
+          <p className="countdown-text">Taking picture in... {countdown}</p>
+        )}
         {error && <p className="error-text">{error}</p>}
         {success && <p className="success-text">{success}</p>}
       </div>
