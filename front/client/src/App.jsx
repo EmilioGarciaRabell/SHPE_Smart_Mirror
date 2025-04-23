@@ -1,13 +1,15 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import IdlePage from "./IdlePage";
 import Login from "./Login";
-import MainPage from "./MainPage";
+import MainPage from "./DummyMainPage";
 
 export default function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Login />} />
+        <Route path="/" element={<IdlePage />}/>
+        <Route path="/login" element={<Login />} />
         <Route path="/main" element={<MainPage />} />
       </Routes>
     </Router>
