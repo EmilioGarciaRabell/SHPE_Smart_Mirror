@@ -32,7 +32,7 @@ def faceAuth():
 def authPin():
     try:
         #return fr.authPin()
-        output = subprocess.check_output(['python3', 'python_scripts/auth_pin.py'])
+        output = subprocess.check_output(['python3', 'python_scripts/facial_recognition_scripts/auth_pin.py'])
         return jsonify({'status': 'ok', 'message': output.decode().strip()})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
