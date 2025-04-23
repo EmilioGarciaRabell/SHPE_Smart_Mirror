@@ -1,6 +1,8 @@
 #!/bin/bash
 set -euo pipefail
 
+export PYTHONIOENCODING=utf-8
+
 PYTHON_VERSION=3.9.18
 VENV_NAME=py3.9env
 
