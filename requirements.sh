@@ -45,7 +45,7 @@ echo "Now using: $(python --version)  (from $(which python))"
 # echo "Updating system and installing pip..."
 # sudo apt update
 # sudo apt install -y python3-pip
-//pip install --upgrade pipenv
+#pip install --upgrade pipenv
 
 # Install required Python packages
 echo "Installing Python packages..."
