@@ -4,7 +4,7 @@ import PanelWrapper from './PanelWrapper';
 const WeatherPanel = ({ onClose }) => {
   const [daysWeather, setDaysWeather] = useState(null);
   const [error, setError] = useState(null);
-  const weatherURL = '/weather'; // uses proxy
+  const weatherURL = '/api/weather';
 
   const fetchWeather = async () => {
     try {

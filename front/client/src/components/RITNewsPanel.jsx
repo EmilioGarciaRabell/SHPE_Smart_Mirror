@@ -8,7 +8,7 @@ function RITNews({ onClose, onArticleSelect }) {
 
   const fetchRITNews = async () => {
     try {
-      const response = await fetch('/RITNews');
+      const response = await fetch('/api/rit-news');
       if (!response.ok) {
         throw new Error(`Error fetching news: ${response.status}`);
       }
