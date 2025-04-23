@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react"; 
 import { useNavigate } from "react-router-dom"; 
-
 import "./login.css";
 
 export default function Login() {
@@ -139,6 +138,14 @@ export default function Login() {
         if(newPinTries >= 3){
           setIncorrectPinLock(30);
           setError("Too many pin attempts, wait 30 seconds!");
+          setTimeout(() => {
+            setStage("face");
+            setUser("");
+            setPin("");
+            setIncorrectPin(0);
+            setIncorrectPinLock(0);
+            navigate("/");
+          }, 30 * 1000);
         }else{
           setError("Incorrect PIN, please try again.");
         }
