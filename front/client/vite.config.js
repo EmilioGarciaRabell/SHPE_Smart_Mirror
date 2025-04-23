@@ -9,9 +9,7 @@ export default defineConfig({
         target: 'http://127.0.0.1:5000',
         changeOrigin: true,
         secure: false
-      },
-      '/RITNews': 'http://127.0.0.1:5000',
-      '/weather': 'http://127.0.0.1:5000'
+      }
     }
   }
 })

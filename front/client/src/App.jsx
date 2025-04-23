@@ -8,6 +8,9 @@ import { useState } from 'react';
 import { FaNewspaper, FaCar, FaUniversity, FaClock } from 'react-icons/fa';
 import WeatherPanel from './components/WeatherPanel';
 import { FaCloudSun } from 'react-icons/fa';
+import JokeGenerator from './components/JokeGenerator';
+import { FaLaughBeam } from 'react-icons/fa';
+
 
 
 function App() {
@@ -156,6 +159,16 @@ function App() {
             );
           }
 
+          if (panelKey === 'joke') {
+            return (
+              <JokeGenerator
+                key="joke"
+                onClose={() => closePanel('joke')}
+              />
+            );
+          }
+
+
           return null;
         })}
       </div>
@@ -164,19 +177,22 @@ function App() {
       <div className="bottom-bar-wrapper">
         <div className="bottom-bar">
           <button onClick={() => openPanel('news')}>
-            <FaNewspaper size={34} />
+            <FaNewspaper size={40} />
           </button>
           <button onClick={() => openPanel('rit')}>
-            <FaUniversity size={34} />
+            <FaUniversity size={40} />
           </button>
           <button onClick={() => setShowDateTime(!showDateTime)}>
-            <FaClock size={34} />
+            <FaClock size={40} />
           </button>
           <button onClick={() => openPanel('weather')}>
-            <FaCloudSun size={34} />
+            <FaCloudSun size={40} />
           </button>
           <button onClick={() => openPanel('traffic')}>
-            <FaCar size={34} />
+            <FaCar size={40} />
+          </button>
+          <button onClick={() => openPanel('joke')}>
+            <FaLaughBeam size={40} />
           </button>
         </div>
       </div>
