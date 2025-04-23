@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"; 
+import React, { useState, useEffect, useCallback } from "react"; 
 import { useNavigate } from "react-router-dom"; 
 
 import "./login.css";
@@ -8,8 +8,26 @@ export default function Login() {
   const [dateTime, setDateTime] = useState(new Date());
   const navigate = useNavigate();
   const [countdown, setCountdown] = useState(null); // null = not counting
+  const sleepTimer = 10*1000;
+  //const sleepTimer = 5*60*1000;
 
+  const resetSleepTimer = useCallback(() => {
+    clearTimeout(window._idleTimer);
+    window._idleTimer = setTimeout(() => {
+      console.log("User has not tried to login within 5 minutes, now sleeping.");
+      navigate("/");
+    }, sleepTimer);
+  }, [navigate]);
 
+  useEffect(() => {
+    resetSleepTimer();
+    const activity = ["mousemove", "keydown", "touchstart", "touchmove"];
+    activity.forEach(evt => document.addEventListener(evt, resetSleepTimer));
+    return () => {
+      events.forEach(evt => document.addEventListener(evt, resetSleepTimer));
+      clearTimeout(window._idleTimer);
+    };
+  }, [resetSleepTimer]);
 
   useEffect(() => {
     const timer = setInterval(() => setDateTime(new Date()), 1000);

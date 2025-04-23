@@ -1,9 +1,12 @@
 // src/IdlePage.jsx
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import "./login.css";
+import loginKey from "./assets/LoginKeyFinal.png";
+import { useNavigate } from "react-router-dom";
 
 export default function IdlePage() {
   const [dateTime, setDateTime] = useState(new Date());
+  const navigate = useNavigate();
 
   useEffect(() => {
     const timer = setInterval(() => setDateTime(new Date()), 1000);
@@ -21,6 +24,10 @@ export default function IdlePage() {
     year: "numeric",
   });
 
+  function loginButtonClick() {
+    navigate("/login");
+  }
+
   return (
     <div className="login-container">
       <div className="login-header">
@@ -28,6 +35,9 @@ export default function IdlePage() {
         <div className="date">{formattedDate}</div>
       </div>
       <hr className="login-divider" />
+      <button className="floating-button" onClick={loginButtonClick}>
+        <img src={loginKey} alt="Login?" className="button-image" />
+      </button>
     </div>
   );
 }
