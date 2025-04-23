@@ -34,7 +34,7 @@ const WeatherPanel = ({ onClose }) => {
     const { time, temperature_2m_max, temperature_2m_min } = daysWeather.daily;
 
     return (
-      <table style={{ width: '100%', color: 'white', fontSize: '14px', borderCollapse: 'collapse' }}>
+      <table style={{ width: '100%', color: 'white', fontSize: '18px', borderCollapse: 'collapse' }}>
         <thead style={{borderBottom: 'thin solid #444'}}>
           <tr>
             <th style={{paddingBottom: '8px' }}>

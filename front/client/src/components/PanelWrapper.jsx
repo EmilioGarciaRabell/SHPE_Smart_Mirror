@@ -5,7 +5,7 @@ function PanelWrapper({ title, onClose, icon, children }) {
   return (
     <div style={{
       width: '400px',
-      margin: '10px',
+      margin: '5px',
       backgroundColor: '#2c2c2c',
       borderRadius: '12px',
       padding: '15px',
