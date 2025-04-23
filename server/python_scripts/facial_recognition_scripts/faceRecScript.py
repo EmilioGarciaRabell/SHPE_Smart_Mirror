@@ -13,10 +13,16 @@ class faceRec:
     This initializes the faceRec data class and encodes the pictures from the 'faces' folder.
     """
     def __init__(self, usersFileIn = 'users.json', facesFolder = 'faces'):
-        with open(usersFileIn, 'r') as f:
+        baseDir = os.path.dirname(os.path.abspath(__file__))
+        userDataDir = os.path.normpath(os.path.join(baseDir, '..', '..', '..', 'user_data'))
+        usersFileJson = os.path.join(userDataDir, 'users.json')
+        facesPath = os.path.join(userDataDir, facesFolder)
+
+
+        with open(usersFileJson, 'r') as f:
             self.users = json.load(f)
         self.userKeys = {u['user_name']: u['user_key'] for u in self.users}
-        self.facesFolder = facesFolder
+        self.facesFolder = facesPath
         self.faceLocations = []
         self.faceEncodings = []
         self.faceNames = []

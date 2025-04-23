@@ -16,15 +16,6 @@ import traceback
 
 fr = faceRec()
 faceTH = 85
-userData =  request.get_json()
-userName = userData.get("user_name")
-userKey = userData.get("user_key")
-
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-
-jsonFile = os.path.join(BASE_DIR, "user_data/users.json")
-facesFolder = os.path.join(BASE_DIR, "user_data/faces")
-
 
 def faceAuth():
     frLockOut = 5
