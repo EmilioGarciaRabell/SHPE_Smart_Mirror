@@ -3,45 +3,32 @@ from flask import Flask, jsonify, send_from_directory
 from flask_restful import Resource, Api
 from flask_cors import CORS
 import os
+from python_scripts import facial_recognition_login as fr
 
 app = Flask(__name__) #create Flask instance
 CORS(app) #Enable CORS on Flask server to work with Nodejs pages
 api = Api(app) #api router
 
-@app.route('/api/capture', methods=['GET'])
-def capture_image():
+@app.route("/api/auth/register", methods=["POST"])    
+def register_user():
     try:
-        output = subprocess.check_output(['python3', 'camera_script.py'])
-        image_path = output.decode().strip()
-        filename = os.path.basename(image_path)
-        return jsonify({'status': 'ok', 'image_path': f"/images/{filename}"})
-    except subprocess.CalledProcessError as e:
-        return jsonify({'status': 'error', 'message': e.output.decode().strip()}), 500
+        return fr.registerUser()
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
-# This serves images from the static/images folder
-@app.route('/images/<filename>')
-def get_image(filename):
-    return send_from_directory('static/images', filename)
-
-@app.route('/api/led/<action>', methods=['GET'])
-def control_led(action):
+@app.route("/api/auth/face", methods=["GET"])
+def faceAuth():
     try:
-        # Call the led_control.py script with the action (on/off)
-        output = subprocess.check_output(['python3', 'led_control.py', action])
-        message = output.decode().strip()
-        return jsonify({'status': 'ok', 'message': message})
-    except subprocess.CalledProcessError as e:
-        return jsonify({'status': 'error', 'message': e.output.decode().strip()}), 500
-
-@app.route('/api/face_recognition', methods=['GET'])
-def face_recognition():
+        return fr.faceAuth()
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    
+@app.route("/api/auth/pin", methods=["POST"])
+def authPin():
     try:
-        # Call the faceRecScript.py script
-        output = subprocess.check_output(['python3', 'face_recog_test/faceRecScript.py'])
-        message = output.decode().strip()
-        return jsonify({'status': 'ok', 'message': message})
-    except subprocess.CalledProcessError as e:
-        return jsonify({'status': 'error', 'message': e.output.decode().strip()}), 500
+        return fr.authPin()
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
     app.run(debug=True)

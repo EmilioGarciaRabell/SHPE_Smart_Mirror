@@ -1,4 +1,4 @@
-from faceRecScript import faceRec as fr
+from server.python_scripts.faceRecScript import faceRec as fr
 import time as t
 import getpass as g
 

@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, request
-from faceRecScript import faceRec
+from server.python_scripts.faceRecScript import faceRec
 from flask_cors import CORS
 import time as t
 import cv2
