@@ -24,7 +24,7 @@ export default function Login() {
     const activity = ["mousemove", "keydown", "touchstart", "touchmove"];
     activity.forEach(evt => document.addEventListener(evt, resetSleepTimer));
     return () => {
-      events.forEach(evt => document.addEventListener(evt, resetSleepTimer));
+      activity.forEach(evt => document.addEventListener(evt, resetSleepTimer));
       clearTimeout(window._idleTimer);
     };
   }, [resetSleepTimer]);
