@@ -23,8 +23,8 @@ export default function Login() {
   useEffect(() => {
     if(incorrectPinLock <= 0) return;
     const timer = setInterval(() => {
-      setIncorrectPinLock(() => {
-        if(prev <= 1){
+      setIncorrectPinLock(prev => {
+        if (prev <= 1) {
           clearInterval(timer);
           setIncorrectPin(0);
           return 0;
