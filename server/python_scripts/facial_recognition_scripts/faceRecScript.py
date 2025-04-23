@@ -14,8 +14,8 @@ class faceRec:
     """
     def __init__(self, usersFileIn = 'users.json', facesFolder = 'faces'):
         baseDir = os.path.dirname(os.path.abspath(__file__))
-        userDataDir = os.path.normpath(os.path.join(baseDir, '..', '..', '..', 'user_data'))
-        usersFileJson = os.path.join(userDataDir, 'users.json')
+        userDataDir = os.path.normpath(os.path.join(baseDir, '..', '..', 'user_data'))
+        usersFileJson = os.path.join(userDataDir, usersFileIn)
         facesPath = os.path.join(userDataDir, facesFolder)
 
 
