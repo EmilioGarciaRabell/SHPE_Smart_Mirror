@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PanelWrapper from './PanelWrapper';
+import { FaNewspaper } from 'react-icons/fa';
 
 function NewsPanel({ onClose, onArticleSelect }) {
   const [articles, setArticles] = useState([]);
@@ -11,11 +12,8 @@ function NewsPanel({ onClose, onArticleSelect }) {
       .catch(err => console.error('Error fetching news:', err));
   }, []);
 
-  const shorten = (text, max = 80) =>
-    text.length > max ? text.slice(0, max) + '…' : text;
-
   return (
-    <PanelWrapper title="News" onClose={onClose}>
+    <PanelWrapper title="News" icon={<FaNewspaper />} onClose={onClose}>
       <div style={{
         maxHeight: '400px',
         overflowY: 'auto',
@@ -34,10 +32,16 @@ function NewsPanel({ onClose, onArticleSelect }) {
               padding: '8px 0',
               color: 'white',
               textAlign: 'left',
-              fontSize: '13px',
+              fontSize: '18px',
             }}
           >
-            {shorten(article.title)}
+            <div style={{
+              whiteSpace: 'nowrap',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis'
+            }}>
+              {article.title}
+            </div>
             {i < 4 && (
               <hr style={{
                 border: 'none',

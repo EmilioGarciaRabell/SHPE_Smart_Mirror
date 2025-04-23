@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PanelWrapper from './PanelWrapper';
+import { FaCloudSun } from 'react-icons/fa';
 
 const WeatherPanel = ({ onClose }) => {
   const [daysWeather, setDaysWeather] = useState(null);
@@ -34,7 +35,7 @@ const WeatherPanel = ({ onClose }) => {
 
     return (
       <table style={{ width: '100%', color: 'white', fontSize: '14px', borderCollapse: 'collapse' }}>
-        <thead>
+        <thead style={{borderBottom: 'thin solid #444'}}>
           <tr>
             <th style={{paddingBottom: '8px' }}>
                 <div style={{ margin: '0 auto', width: '60%', textAlign: 'left' }}>
@@ -83,7 +84,7 @@ const WeatherPanel = ({ onClose }) => {
   };
 
   return (
-    <PanelWrapper title="Weather Forecast" onClose={onClose}>
+    <PanelWrapper title="Weather Forecast" icon={<FaCloudSun />} onClose={onClose}>
       <div style={{ maxHeight: '300px', overflowY: 'auto', paddingRight: '6px' }}>
         {renderForecastTable()}
       </div>

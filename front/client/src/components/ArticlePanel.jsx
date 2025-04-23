@@ -42,7 +42,7 @@ function ArticlePanel({ article, onClose }) {
     <PanelWrapper title="Article" onClose={onClose}>
       <h3 style={{
         textAlign: 'left',
-        fontSize: '14px',
+        fontSize: '19px',
         whiteSpace: 'nowrap',
         overflow: 'hidden',
         textOverflow: 'ellipsis'
@@ -50,13 +50,13 @@ function ArticlePanel({ article, onClose }) {
         {article.title}
       </h3>
 
-      <p style={{ textAlign: 'center', fontSize: '12px' }}>
+      <p style={{ textAlign: 'center', fontSize: '17px' }}>
         {formatDate(article.pubDate) || ''}
       </p>
 
       <p style={{
         textAlign: 'justify',
-        fontSize: '13px',
+        fontSize: '18px',
         maxHeight: '250px',
         overflow: 'hidden',
         textOverflow: 'ellipsis',

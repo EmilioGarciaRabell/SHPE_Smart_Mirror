@@ -25,11 +25,14 @@ function App() {
       setArticleSourcePanel(null);
     }
 
-    // Already open? do nothing
-    if (updated.includes(panelKey)) return;
+    // Already open? then close
+    if (updated.includes(panelKey)) {
+      closePanel(panelKey);
+      return;
+    }
 
-    // Enforce max 2 panels
-    if (updated.length >= 2) {
+    // Enforce max 3 panels
+    if (updated.length >= 3) {
       updated.shift();
     }
 
@@ -161,19 +164,19 @@ function App() {
       <div className="bottom-bar-wrapper">
         <div className="bottom-bar">
           <button onClick={() => openPanel('news')}>
-            <FaNewspaper size={20} />
+            <FaNewspaper size={34} />
           </button>
           <button onClick={() => openPanel('rit')}>
-            <FaUniversity size={20} />
+            <FaUniversity size={34} />
           </button>
           <button onClick={() => setShowDateTime(!showDateTime)}>
-            <FaClock size={20} />
+            <FaClock size={34} />
           </button>
           <button onClick={() => openPanel('weather')}>
-            <FaCloudSun size={20} />
+            <FaCloudSun size={34} />
           </button>
           <button onClick={() => openPanel('traffic')}>
-            <FaCar size={20} />
+            <FaCar size={34} />
           </button>
         </div>
       </div>

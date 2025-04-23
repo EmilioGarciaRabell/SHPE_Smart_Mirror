@@ -37,7 +37,7 @@ const DateTime = () => {
         alignItems: 'center',
         padding: '16px 32px',
         color: 'white',
-        fontSize: '24px',
+        fontSize: '40px',
         fontWeight: '400',
         width: '100%',
         boxSizing: 'border-box',
