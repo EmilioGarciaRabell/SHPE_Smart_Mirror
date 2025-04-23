@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, request
-from python_scripts.faceRecScript import faceRec
+from server.python_scripts.facial_recognition_scripts.faceRecScript import faceRec
 import time as t
 import cv2
 import os
