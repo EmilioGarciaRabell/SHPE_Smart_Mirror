@@ -6,6 +6,9 @@ import ArticlePanel from './components/ArticlePanel';
 import DateTime from './components/DateTime';
 import { useState } from 'react';
 import { FaNewspaper, FaCar, FaUniversity, FaClock } from 'react-icons/fa';
+import WeatherPanel from './components/WeatherPanel';
+import { FaCloudSun } from 'react-icons/fa';
+
 
 function App() {
   const [openPanels, setOpenPanels] = useState([]); // panel queue
@@ -141,6 +144,15 @@ function App() {
             );
           }
 
+          if (panelKey === 'weather') {
+            return (
+              <WeatherPanel
+                key="weather"
+                onClose={() => closePanel('weather')}
+              />
+            );
+          }
+
           return null;
         })}
       </div>
@@ -156,6 +168,9 @@ function App() {
           </button>
           <button onClick={() => setShowDateTime(!showDateTime)}>
             <FaClock size={20} />
+          </button>
+          <button onClick={() => openPanel('weather')}>
+            <FaCloudSun size={20} />
           </button>
           <button onClick={() => openPanel('traffic')}>
             <FaCar size={20} />

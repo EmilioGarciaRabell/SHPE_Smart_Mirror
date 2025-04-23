@@ -2,6 +2,9 @@ from flask import Flask, request, jsonify
 from flask_restful import Resource, Api
 from flask_cors import CORS
 from RITNews import RITNewsApi
+from Weather import Weather  # if it's in a weather.py file
+
+
 
 import requests
 import os
@@ -15,6 +18,7 @@ CORS(app)
 api = Api(app)
 
 api.add_resource(RITNewsApi, "/RITNews")
+api.add_resource(Weather, '/weather')
 
 
 # TomTom API config
