@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
+
 #root {
   max-width: 1280px;
   margin: 0 auto;
@@ -39,4 +41,37 @@
 
 .read-the-docs {
   color: #888;
+}
+
+div.joke {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  margin: 10px 0 0 5px;
+
+  text-align: right;
+  letter-spacing: 1px;
+  color: #cccccc;
+}
+
+div.joke h1{
+  margin-bottom: 10px;
+  font-size: 40px;
+}
+
+div.joke p{
+  font-size: 30px;
+  margin: 5px;
+}
+
+div.joke button { 
+  width: 130px;
+  font-size: 20px;
+}
+
+div.oswald-light {
+  font-family: "Oswald", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 200;
+  font-style: normal;
 }
