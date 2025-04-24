@@ -4,6 +4,8 @@ from flask_restful import Resource, Api
 from flask_cors import CORS
 import os
 
+from python_scripts.facial_recognition_scripts.auth_pin import authPin
+
 
 app = Flask(__name__) #create Flask instance
 CORS(app) #Enable CORS on Flask server to work with Nodejs pages
@@ -29,13 +31,8 @@ def faceAuth():
         return jsonify({"error": str(e)}), 500
     
 @app.route("/api/auth/pin", methods=["POST"])
-def authPin():
-    try:
-        #return fr.authPin()
-        output = subprocess.check_output(['python3', 'python_scripts/facial_recognition_scripts/auth_pin.py'])
-        return jsonify({'status': 'ok', 'message': output.decode().strip()})
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
+def authPassword():
+    return authPin()
 
 
 
