@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, request
-from server.services.faceRecScript import faceRec
-from server.services.createUser import register_User
-import server.services.login as l
+from services.faceRecScript import faceRec
+from services.createUser import register_User
+import services.login as l
 from flask_cors import CORS
 import time as t
 import cv2
