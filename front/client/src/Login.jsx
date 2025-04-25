@@ -196,14 +196,21 @@ export default function Login() {
         <h1>{getGreeting()}!</h1>
         <p>Welcome to the Smart Mirror</p>
 
-        {isScanning ? (
-          <p className="scanning-text"> Scanning for Face...</p>
-        ) : (
-          <>
-            <button className="login-button" onClick={tryFaceLogin}>Login with Face</button>
-            <button className="login-button" onClick={() => setStage("register")}>Register New User</button>
-          </>
+        {stage === "face" && (
+          isScanning ? (
+            <div className="scanning-box">
+              <img src="./assets/faceIdIcon.png" alt="Scanning Face" className="scanning-icon" />
+              <p className="scanning-text">Scanning for Face...</p>
+            </div>
+          ) : (
+            <>
+              <button className="login-button" onClick={tryFaceLogin}>Login with Face</button>
+              <button className="login-button" onClick={() => setStage("register")}>Register New User</button>
+            </>
+          )
         )}
+
+
 
         {stage === "pin" && (
           <form onSubmit={tryPinLogin}>

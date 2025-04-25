@@ -157,17 +157,35 @@
     transform: scale(1.05);
   }
 
+  .scanning-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 2rem;
+  }
+  
+  .scanning-icon {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 1rem;
+    animation: pulse 1.5s infinite ease-in-out;
+  }
+  
   .scanning-text {
-    font-size: 1.5rem;
-    margin: 20px;
     color: white;
-    animation: pulse 1s infinite;
+    font-size: 1.2rem;
+    animation: fadeIn 1s ease-in-out;
   }
   
   @keyframes pulse {
-    0% { opacity: 0.6; }
-    50% { opacity: 1; }
-    100% { opacity: 0.6; }
+    0%   { transform: scale(1); opacity: 1; }
+    50%  { transform: scale(1.1); opacity: 0.8; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
   }
   
   
