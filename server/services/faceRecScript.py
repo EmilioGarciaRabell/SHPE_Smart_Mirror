@@ -5,6 +5,12 @@ import numpy as np
 import math
 import json
 
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DATA_DIR = os.path.join(BASE_DIR, "..", "data")
+usersFileIn = os.path.join(DATA_DIR, "users.json")
+facesFolder = os.path.join(DATA_DIR, "faces")
+
 """
 A data class that handles the facial recognition.
 """
@@ -12,7 +18,7 @@ class faceRec:
     """
     This initializes the faceRec data class and encodes the pictures from the 'faces' folder.
     """
-    def __init__(self, usersFileIn = 'users.json', facesFolder = 'faces'):
+    def __init__(self, usersFileIn, facesFolder):
         with open(usersFileIn, 'r') as f:
             self.users = json.load(f)
         self.userKeys = {u['user_name']: u['user_key'] for u in self.users}
