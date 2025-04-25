@@ -2,6 +2,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import "./login.css";
 import { useNavigate } from "react-router-dom";
+import captureButton from "./assets/captureButton.png";
 
 export default function CameraPage() {
   const videoRef = useRef(null);
@@ -39,7 +40,26 @@ export default function CameraPage() {
   }, []);
 
   const handleBack = () => {
-    navigate("/"); // or wherever your IdlePage is routed
+    navigate("/"); 
+  };
+
+    const takePicture = async () => {
+    try {
+      const res = await fetch("http://localhost:5000/api/capture", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ user_name: userName }),
+      });
+      const data = await res.json();
+        if (data.success) {
+          setMessage(`Image captured: ${data.image_name}`);
+        } else {
+          setMessage(`${data.reason || "Capture failed"}`);
+        }
+    } catch (err) {
+      console.error("Capture error:", err);
+      setMessage("Could not connect to server.");
+    }
   };
 
   return (
@@ -59,6 +79,12 @@ export default function CameraPage() {
           width="640"
           height="480"
         />
+      </div>
+      <div style={{ marginTop: "20px", textAlign: "center" }}>
+        <button className="floating-button" onClick={takePicture}>
+            <img src={captureButton} className="button_image"/>
+        </button>
+        {message && <p style={{ marginTop: "10px", color: "white" }}>{message}</p>}
       </div>
     </div>
   );
