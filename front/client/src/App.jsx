@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import IdlePage from "./IdlePage";
 import Login from "./Login";
 import MainPage from "./DummyMainPage";
-import CameraPage from "./cameraApp";
+import CameraPage from "./CameraApp";
 
 export default function App() {
   return (
