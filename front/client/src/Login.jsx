@@ -111,7 +111,10 @@ export default function Login() {
       } else {
         console.warn("Face not recognized, falling back to PIN");
         setStage("pin");
+        setUser("");
+        setPin("");
       }
+      
     } catch (e) {
       console.error("Network or server error:", e);
       setError("Server error, try again later.");

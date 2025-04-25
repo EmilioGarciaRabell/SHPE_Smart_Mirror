@@ -156,6 +156,20 @@
   .gallery-img:hover {
     transform: scale(1.05);
   }
+
+  .scanning-text {
+    font-size: 1.5rem;
+    margin: 20px;
+    color: white;
+    animation: pulse 1s infinite;
+  }
+  
+  @keyframes pulse {
+    0% { opacity: 0.6; }
+    50% { opacity: 1; }
+    100% { opacity: 0.6; }
+  }
+  
   
   
   
