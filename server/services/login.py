@@ -2,15 +2,15 @@ from services.faceRecScript import faceRec
 import time as t
 import getpass as g
 
-fr = faceRec()
 faceTH = 85
 frLockOut = 5
 
+fr = faceRec()
+
 def faceLogin() -> dict:
-    auth = fr()
     start = t.time()
     while t.time() - start < frLockOut:
-        name, percentage = auth.authUser()
+        name, percentage = fr.authUser()
         if percentage >= faceTH:
             return {"success": True, "user": name, "percentage": percentage}
         t.sleep(0.1)
@@ -27,13 +27,12 @@ def pinLogin(user_name: str, user_key: str) -> dict:
 
 
 def loginTest():
-    auth = fr()
     frLockOut = 5
     faceTH = 85
     startTime = t.time()
     nameOfUser = ""
     while t.time() - startTime < frLockOut:
-        name, percentage = auth.authUser()
+        name, percentage = fr.authUser()
         if percentage >= faceTH:
             print(f"Welcome {name}")
             nameOfUser += name
