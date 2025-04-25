@@ -9,6 +9,9 @@ gpiozero = "*"
 pigpio = "*"
 gpiod = "*"
 lgpio = "*"
+flask = "*"
+cmake = "*"
+face-recognition = "*"
 
 [dev-packages]
 

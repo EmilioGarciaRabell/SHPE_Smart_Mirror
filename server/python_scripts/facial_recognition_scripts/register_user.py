@@ -5,7 +5,7 @@
 '''
 
 from flask import Flask, jsonify, request
-from server.python_scripts.facial_recognition_scripts.faceRecScript import faceRec
+from python_scripts.facial_recognition_scripts.faceRecScript import faceRec
 import time as t
 import cv2
 import os
@@ -14,17 +14,15 @@ import traceback
 
 fr = faceRec()
 faceTH = 85
-userData =  request.get_json()
-userName = userData.get("user_name")
-userKey = userData.get("user_key")
+
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-jsonFile = os.path.join(BASE_DIR, "user_data/users.json")
-facesFolder = os.path.join(BASE_DIR, "user_data/faces")
+jsonFile = "user_data/users.json"#os.path.join(BASE_DIR, "user_data/users.json")
+facesFolder = "user_data/faces"#os.path.join(BASE_DIR, "user_data/faces")
 
 
-def register_user():
+def register_user(userData, userName, userKey):
     if not userName or not userKey: 
         raise ValueError("Missing username or key")
     pictureName = f"{userName}.jpg"
@@ -63,5 +61,5 @@ def register_user():
     fr.encodeFaces()
     print("User registered successfully")
 
-if __name__ == "__main__":
-    register_user()
+# if __name__ == "__main__":
+#     register_user()

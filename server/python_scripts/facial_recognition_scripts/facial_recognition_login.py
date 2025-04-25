@@ -14,9 +14,8 @@ userKey = userData.get("user_key")
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-jsonFile = os.path.join(BASE_DIR, "user_data/users.json")
-facesFolder = os.path.join(BASE_DIR, "user_data/faces")
-
+jsonFile = "user_data/users.json"#os.path.join(BASE_DIR, "user_data/users.json")
+facesFolder = "user_data/faces"#os.path.join(BASE_DIR, "user_data/faces")
 '''
  Register a new user by capturing their face and storing it in the faces folder
  as well as creating a new user in the users.json file.
