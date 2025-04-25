@@ -2,6 +2,7 @@ import cv2
 from datetime import datetime
 import os
 
+"""
 # Generate timestamped filename
 timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
 image_dir = os.path.join(os.path.dirname(__file__), 'images')
@@ -24,3 +25,25 @@ if ret:
 else:
     print("Failed to capture image")
     exit(1)
+"""
+
+
+def image_capture(user_id: str) -> dict:
+    timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+    base_dir = os.path.dirname(__file__)
+    user_data_dir = os.path.join(base_dir, "..", "data", "user_data")
+    this_user_data_dir = os.path.join(user_data_dir, user_id)
+    os.makedirs(this_user_data_dir, exist_ok=True)
+    image_path = os.path.join(this_user_data_dir, f"image_{timestamp}.jpg")
+    cap = cv2.VideoCapture(0)
+    if not cap.isOpened():
+        #raise RuntimeError("Camera not accessible")
+        return {"success": False, "reason": "Camera not accessible"}
+    ret, frame = cap.read()
+    cap.release()   
+    if ret:
+        cv2.imwrite(image_path, frame)
+        return {"success": True, "image_name": f"image_{timestamp}.jpg"}
+    else:
+        return {"success": False, "reason": "Failed to capture"}
+    
