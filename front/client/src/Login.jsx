@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react"; 
 import { useNavigate } from "react-router-dom"; 
 import "./login.css";
+import faceIdIcon from "./assets/faceIdIcon.png"
 
 export default function Login() {
   const API = import.meta.env.VITE_API_URL || "http://localhost:5000";
@@ -199,7 +200,7 @@ export default function Login() {
         {stage === "face" && (
           isScanning ? (
             <div className="scanning-box">
-              <img src="./assets/faceIdIcon.png" alt="Scanning Face" className="scanning-icon" />
+              <img src={faceIdIcon} alt="Scanning Face" className="scanning-icon" />
               <p className="scanning-text">Scanning for Face...</p>
             </div>
           ) : (
