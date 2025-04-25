@@ -1,5 +1,5 @@
 // src/components/CameraPage.jsx
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import "./login.css";
 import { useNavigate } from "react-router-dom";
 
