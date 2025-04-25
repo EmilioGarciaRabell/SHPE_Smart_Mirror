@@ -83,7 +83,13 @@ export default function CameraPage() {
         console.error("Video element not available.");
         return;
       }
-
+  
+      if (videoRef.current.readyState < 2) {
+        console.error("Video not ready to capture frame!");
+        setMessage("Camera not ready yet, please try again!");
+        return;
+      }
+  
       const canvas = document.createElement("canvas");
       canvas.width = videoRef.current.videoWidth;
       canvas.height = videoRef.current.videoHeight;
@@ -91,6 +97,7 @@ export default function CameraPage() {
       ctx.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
   
       const base64Image = canvas.toDataURL("image/jpeg");
+      console.log("Generated base64 image length:", base64Image.length);
   
       const res = await fetch("http://localhost:5000/api/capture", {
         method: "POST",
@@ -103,7 +110,7 @@ export default function CameraPage() {
   
       const data = await res.json();
       if (data.success) {
-        setMessage(`Image captured: ${data.image_name}`);
+        setMessage(`✅ Image captured: ${data.image_name}`);
       } else {
         setMessage(`${data.reason || "Capture failed"}`);
       }
@@ -114,6 +121,7 @@ export default function CameraPage() {
   
     setTimeout(startWebcam, 500);
   };
+  
 
   const handleCountdownCapture = () => {
     let sec = 3;
