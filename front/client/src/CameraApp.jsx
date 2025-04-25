@@ -21,7 +21,13 @@ export default function CameraPage() {
   }, []);
   
 
-  // Clock updater
+  useEffect(() => {
+    if (message) {
+      const timeout = setTimeout(() => setMessage(""), 4000);
+      return () => clearTimeout(timeout);
+    }
+  }, [message]);
+  
   useEffect(() => {
     const timer = setInterval(() => setDateTime(new Date()), 1000);
     return () => clearInterval(timer);
@@ -38,7 +44,6 @@ export default function CameraPage() {
     year: "numeric",
   });
 
-  // Start webcam on mount
   useEffect(() => {
     startWebcam();
   }, []);
@@ -78,18 +83,15 @@ export default function CameraPage() {
         console.error("Video element not available.");
         return;
       }
-  
-      // Create canvas to capture frame
+
       const canvas = document.createElement("canvas");
       canvas.width = videoRef.current.videoWidth;
       canvas.height = videoRef.current.videoHeight;
       const ctx = canvas.getContext("2d");
       ctx.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
   
-      // Convert canvas to base64-encoded JPEG
       const base64Image = canvas.toDataURL("image/jpeg");
   
-      // Send image to backend
       const res = await fetch("http://localhost:5000/api/capture", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -110,7 +112,6 @@ export default function CameraPage() {
       setMessage("Could not connect to server.");
     }
   
-    // Restart webcam after backend is done
     setTimeout(startWebcam, 500);
   };
 
@@ -123,10 +124,9 @@ export default function CameraPage() {
       if (sec <= 0) {
         clearInterval(interval);
         setCountdown(null);
-        stopWebcam(); // release webcam
+        stopWebcam();
         console.log("[DEBUG] Webcam stream stopped. Waiting before backend call...");
-  
-        // wait 2 full seconds before triggering backend
+
         setTimeout(() => {
           console.log("[DEBUG] Triggering backend capture...");
           triggerBackendCapture();
