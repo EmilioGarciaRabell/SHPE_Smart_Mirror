@@ -3,7 +3,7 @@ import cv2
 import json
 import time as t
 import traceback
-from faceRecScript import faceRec
+from services.faceRecScript import faceRec
 
 """
 Directory to access the users.json file and the faces folder
@@ -13,7 +13,7 @@ DATA_DIR = os.path.join(BASE_DIR, "..", "data")
 JSONFILE_DIR = os.path.join(DATA_DIR, "users.json")
 FACES_DIR = os.path.join(DATA_DIR, "faces")
 
-fr = faceRec
+fr = faceRec()
 
 def register_User(user_name: str, user_key: str) -> dict:
     try:
