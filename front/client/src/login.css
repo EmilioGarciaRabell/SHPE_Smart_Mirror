@@ -104,5 +104,16 @@
     object-fit: contain;
   }
   
+  .camera-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .camera-video {
+    border: 3px solid white;
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+  }
   
   
