@@ -6,6 +6,23 @@ import { useNavigate } from "react-router-dom";
 export default function CameraPage() {
   const videoRef = useRef(null);
   const navigate = useNavigate();
+  const [dateTime, setDateTime] = useState(new Date());
+
+  useEffect(() => {
+      const timer = setInterval(() => setDateTime(new Date()), 1000);
+      return () => clearInterval(timer);
+    }, []);
+  
+    const formattedTime = dateTime.toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  
+    const formattedDate = dateTime.toLocaleDateString([], {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+    });
 
   useEffect(() => {
     async function startCamera() {
@@ -28,8 +45,8 @@ export default function CameraPage() {
   return (
     <div className="login-container">
       <div className="login-header">
-        <div className="time">Webcam Live View</div>
-        <div className="date">Press "Esc" to Exit</div>
+        <div className="time">{formattedTime}</div>
+        <div className="date">{formattedDate}</div>
       </div>
       <hr className="login-divider" />
       <div className="camera-wrapper">
@@ -39,13 +56,10 @@ export default function CameraPage() {
           muted
           playsInline
           className="camera-video"
-          width="320"
-          height="240"
+          width="640"
+          height="480"
         />
       </div>
-      <button className="floating-button" onClick={handleBack}>
-        ⬅ Back
-      </button>
     </div>
   );
 }
