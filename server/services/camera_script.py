@@ -1,3 +1,4 @@
+import base64
 import cv2
 from datetime import datetime
 import os
@@ -46,4 +47,28 @@ def image_capture(user_id: str) -> dict:
         return {"success": True, "image_name": f"image_{timestamp}.jpg"}
     else:
         return {"success": False, "reason": "Failed to capture"}
+    
+def image_recieve_ui(user_id: str, image_data: str) -> dict:
+    try:
+        # Create timestamped filename
+        timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+        base_dir = os.path.dirname(__file__)
+        user_data_dir = os.path.join(base_dir, "..", "data", "user_data")
+        this_user_data_dir = os.path.join(user_data_dir, user_id)
+        os.makedirs(this_user_data_dir, exist_ok=True)
+
+        filename = f"image_{timestamp}.jpg"
+        image_path = os.path.join(this_user_data_dir, filename)
+
+        # Strip off base64 header if present
+        if "," in image_data:
+            image_data = image_data.split(",")[1]
+
+        # Decode and write to file
+        with open(image_path, "wb") as f:
+            f.write(base64.b64decode(image_data))
+
+        return {"success": True, "image_name": filename}
+    except Exception as e:
+        return {"success": False, "reason": str(e)}
     

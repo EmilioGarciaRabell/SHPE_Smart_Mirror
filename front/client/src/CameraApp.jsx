@@ -66,14 +66,34 @@ export default function CameraPage() {
 
   const triggerBackendCapture = async () => {
     try {
+      if (!videoRef.current) {
+        console.error("Video element not available.");
+        return;
+      }
+  
+      // Create canvas to capture frame
+      const canvas = document.createElement("canvas");
+      canvas.width = videoRef.current.videoWidth;
+      canvas.height = videoRef.current.videoHeight;
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
+  
+      // Convert canvas to base64-encoded JPEG
+      const base64Image = canvas.toDataURL("image/jpeg");
+  
+      // Send image to backend
       const res = await fetch("http://localhost:5000/api/capture", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ user_name: userName }),
+        body: JSON.stringify({
+          user_name: userName,
+          image: base64Image,
+        }),
       });
+  
       const data = await res.json();
       if (data.success) {
-        setMessage(`✅ Image captured: ${data.image_name}`);
+        setMessage(`Image captured: ${data.image_name}`);
       } else {
         setMessage(`${data.reason || "Capture failed"}`);
       }
@@ -81,9 +101,9 @@ export default function CameraPage() {
       console.error("Capture error:", err);
       setMessage("Could not connect to server.");
     }
-
+  
     // Restart webcam after backend is done
-    setTimeout(startWebcam, 1000);
+    setTimeout(startWebcam, 500);
   };
 
   const handleCountdownCapture = () => {

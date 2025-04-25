@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, request
 from services.faceRecScript import faceRec
 from services.createUser import register_User
-from services.camera_script import image_capture
+from services.camera_script import image_recieve_ui
 import services.login as l
 from flask_cors import CORS
 import time as t
@@ -43,21 +43,17 @@ def authPin():
 def capture_image():
     data = request.get_json()
     user_name = data.get("user_name")
-    if not user_name:
-        return jsonify({"success": False, "reason": "Missing user_name"}), 400
-    try:
-        user_data_file = os.path.join(os.path.dirname(__file__), "data", "users.json")
-        with open(user_data_file, "r") as f:
-            users = json.load(f)
-        user = next((u for u in users if u["user_name"] == user_name), None)
-        if not user:
-            return jsonify({"success": False, "reason": "User not found"}), 404
-        user_id = str(user["user_id"])
-        result = image_capture(user_id=user_id)
-        return jsonify(result), 200 if result["success"] else 500
-    except Exception as e:
-        traceback.print_exc()
-        return jsonify({"success": False, "reason": "Internal server error"}), 500
+    image_data = data.get("image")
+
+    with open("data/users.json") as f:
+        users = json.load(f)
+    user = next((u for u in users if u["user_name"] == user_name), None)
+
+    if not user:
+        return jsonify({"success": False, "reason": "User not found"}), 404
+
+    result = image_recieve_ui(str(user["user_id"]), image_data)
+    return jsonify(result), 200 if result["success"] else 500
 
 
 
