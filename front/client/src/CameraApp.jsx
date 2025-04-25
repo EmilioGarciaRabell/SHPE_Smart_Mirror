@@ -110,7 +110,7 @@ export default function CameraPage() {
   
       const data = await res.json();
       if (data.success) {
-        setMessage(`✅ Image captured: ${data.image_name}`);
+        setMessage(`Image captured: ${data.image_name}`);
       } else {
         setMessage(`${data.reason || "Capture failed"}`);
       }
@@ -132,18 +132,21 @@ export default function CameraPage() {
       if (sec <= 0) {
         clearInterval(interval);
         setCountdown(null);
-        stopWebcam();
-        console.log("[DEBUG] Webcam stream stopped. Waiting before backend call...");
-
+  
+        console.log("[DEBUG] Triggering backend capture...");
+        triggerBackendCapture(); 
+  
         setTimeout(() => {
-          console.log("[DEBUG] Triggering backend capture...");
-          triggerBackendCapture();
-        }, 2000);
+          stopWebcam();  
+          console.log("[DEBUG] Webcam stream stopped.");
+        }, 1000);
+        
       } else {
         setCountdown(sec);
       }
     }, 1000);
   };
+  
   
 
   const handleBack = () => {
