@@ -5,9 +5,9 @@ import getpass as g
 faceTH = 85
 frLockOut = 5
 
-fr = faceRec()
 
 def faceLogin() -> dict:
+    fr = faceRec()
     start = t.time()
     while t.time() - start < frLockOut:
         name, percentage = fr.authUser()
@@ -17,6 +17,7 @@ def faceLogin() -> dict:
     return {"success": False, "reason": "face_not_recognized"}
 
 def pinLogin(user_name: str, user_key: str) -> dict:
+    fr = faceRec()
     expected = fr.userKeys.get(user_name)
     try:
         if expected is not None and int(user_key) == int(expected):

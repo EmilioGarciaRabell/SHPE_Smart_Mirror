@@ -119,6 +119,7 @@ class faceRec:
             return name, percentage
         else:
             return None, percentage
+    
 
 """
 This function calculates the percentage of a face match based on the face distance.
