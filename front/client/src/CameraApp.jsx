@@ -13,6 +13,14 @@ export default function CameraPage() {
   const [message, setMessage] = useState("");
   const [countdown, setCountdown] = useState(null);
 
+  useEffect(() => {
+    navigator.mediaDevices.enumerateDevices().then((devices) => {
+      console.log("Available media devices:");
+      devices.forEach((d) => console.log(`${d.kind}: ${d.label || "(no label)"} - ${d.deviceId}`));
+    });
+  }, []);
+  
+
   // Clock updater
   useEffect(() => {
     const timer = setInterval(() => setDateTime(new Date()), 1000);
