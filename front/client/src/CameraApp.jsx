@@ -90,6 +90,9 @@ export default function CameraPage() {
         return;
       }
   
+      //Pause the video during capture
+      videoRef.current.pause();
+  
       const canvas = document.createElement("canvas");
       canvas.width = videoRef.current.videoWidth;
       canvas.height = videoRef.current.videoHeight;
@@ -117,10 +120,14 @@ export default function CameraPage() {
     } catch (err) {
       console.error("Capture error:", err);
       setMessage("Could not connect to server.");
+    } finally {
+      if (videoRef.current) {
+        videoRef.current.play();  //Resume the webcam after capture
+        console.log("[DEBUG] Webcam resumed after capture.");
+      }
     }
-  
-    setTimeout(startWebcam, 500);
   };
+  
   
 
   const handleCountdownCapture = () => {
@@ -134,18 +141,14 @@ export default function CameraPage() {
         setCountdown(null);
   
         console.log("[DEBUG] Triggering backend capture...");
-        triggerBackendCapture(); 
+        triggerBackendCapture();
   
-        setTimeout(() => {
-          stopWebcam();  
-          console.log("[DEBUG] Webcam stream stopped.");
-        }, 1000);
-        
       } else {
         setCountdown(sec);
       }
     }, 1000);
   };
+  
   
   
 
