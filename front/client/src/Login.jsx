@@ -10,6 +10,8 @@ export default function Login() {
   const sleepTimer = 60*1000;// 1 minute timer
   const [incorrectPin, setIncorrectPin] = useState(0);
   const [incorrectPinLock, setIncorrectPinLock] = useState(0);
+  const [isScanning, setIsScanning] = useState(false);
+
 
   const resetSleepTimer = useCallback(() => {
     clearTimeout(window._idleTimer);
@@ -99,6 +101,7 @@ export default function Login() {
 
   async function tryFaceLogin() {
     setError("");
+    setIsScanning(true);  //Show scanning indicator
     try {
       const res = await fetch(`${API}/api/auth/face`, { method: "GET" });
       if (res.ok) {
@@ -112,8 +115,11 @@ export default function Login() {
     } catch (e) {
       console.error("Network or server error:", e);
       setError("Server error, try again later.");
+    } finally {
+      setIsScanning(false);  //Hide scanning indicator
     }
   }
+  
 
   async function tryPinLogin(e) {
     e.preventDefault();
@@ -187,10 +193,12 @@ export default function Login() {
         <h1>{getGreeting()}!</h1>
         <p>Welcome to the Smart Mirror</p>
 
-        {stage === "face" && (
+        {isScanning ? (
+          <p className="scanning-text"> Scanning for Face...</p>
+        ) : (
           <>
             <button className="login-button" onClick={tryFaceLogin}>Login with Face</button>
-            <button className="login-button" onClick={() => setStage("register")}>➕ Register New User</button>
+            <button className="login-button" onClick={() => setStage("register")}>Register New User</button>
           </>
         )}
 
