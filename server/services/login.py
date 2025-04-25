@@ -1,12 +1,14 @@
-from faceRecScript import faceRec as fr
+from faceRecScript import faceRec
 import time as t
 import getpass as g
+
+fr = faceRec()
+faceTH = 85
+frLockOut = 5
 
 def faceLogin() -> dict:
     auth = fr()
     start = t.time()
-    frLockOut = 5
-    faceTH = 85
     while t.time() - start < frLockOut:
         name, percentage = auth.authUser()
         if percentage >= faceTH:
@@ -14,14 +16,14 @@ def faceLogin() -> dict:
         t.sleep(0.1)
     return {"success": False, "reason": "face_not_recognized"}
 
-def pinLogin(user: str, pin: str) -> dict:
-    auth = fr()
-    if user not in auth.userKeys:
-        return {"success": False, "reason": "no_such_user"}
-    if str(auth.userKeys[user]) == str(pin):
-        return {"success": True}
-    else:
-        return {"success": False, "reason": "wrong_pin"}
+def pinLogin(user_name: str, user_key: str) -> dict:
+    expected = fr.userKeys.get(user_name)
+    try:
+        if expected is not None and int(user_key) == int(expected):
+            return {"success": True}
+    except (TypeError, ValueError):
+        pass
+    return {"success": False, "reason": "pin_incorrect"}
 
 
 def loginTest():

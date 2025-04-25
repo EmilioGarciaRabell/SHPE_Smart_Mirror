@@ -1,47 +1,44 @@
-import subprocess
-from flask import Flask, jsonify, send_from_directory
-from flask_restful import Resource, Api
+from flask import Flask, jsonify, request
+from server.services.faceRecScript import faceRec
+from server.services.createUser import register_User
+import server.services.login as l
 from flask_cors import CORS
+import time as t
+import cv2
 import os
+import json
+import traceback
 
-app = Flask(__name__) #create Flask instance
-CORS(app) #Enable CORS on Flask server to work with Nodejs pages
-api = Api(app) #api router
 
-@app.route('/api/capture', methods=['GET'])
-def capture_image():
-    try:
-        output = subprocess.check_output(['python3', 'camera_script.py'])
-        image_path = output.decode().strip()
-        filename = os.path.basename(image_path)
-        return jsonify({'status': 'ok', 'image_path': f"/images/{filename}"})
-    except subprocess.CalledProcessError as e:
-        return jsonify({'status': 'error', 'message': e.output.decode().strip()}), 500
+app = Flask(__name__)
+CORS(app)
 
-# This serves images from the static/images folder
-@app.route('/images/<filename>')
-def get_image(filename):
-    return send_from_directory('static/images', filename)
+fr = faceRec()
+faceTH = 85
 
-@app.route('/api/led/<action>', methods=['GET'])
-def control_led(action):
-    try:
-        # Call the led_control.py script with the action (on/off)
-        output = subprocess.check_output(['python3', 'led_control.py', action])
-        message = output.decode().strip()
-        return jsonify({'status': 'ok', 'message': message})
-    except subprocess.CalledProcessError as e:
-        return jsonify({'status': 'error', 'message': e.output.decode().strip()}), 500
 
-@app.route('/api/face_recognition', methods=['GET'])
-def face_recognition():
-    try:
-        # Call the faceRecScript.py script
-        output = subprocess.check_output(['python3', 'face_recog_test/faceRecScript.py'])
-        message = output.decode().strip()
-        return jsonify({'status': 'ok', 'message': message})
-    except subprocess.CalledProcessError as e:
-        return jsonify({'status': 'error', 'message': e.output.decode().strip()}), 500
+@app.route("/api/auth/register", methods=["POST"])
+def registerUser():
+    data = request.get_json()
+    user_name = data.get("user_name")
+    user_key = data.get("user_key")
+    result = register_User(user_name=user_name, user_key=user_key)
+    return jsonify(result), 200 if result["success"] else 400
 
+@app.route("/api/auth/face", methods=["GET"])
+def faceAuth():
+    result = l.faceLogin()
+    return jsonify(result), 200 if result["success"] else 401
+
+@app.route("/api/auth/pin", methods=["POST"])
+def authPin():
+    data = request.get_json() or {}
+    user_name = data.get("user")
+    pin = data.get("pin")
+    result = l.pinLogin(user_name=user_name, user_key=pin)
+    return jsonify(result), 200 if result["success"] else 401
+
+
+    
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=5000, debug=True)
