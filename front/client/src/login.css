@@ -116,4 +116,22 @@
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
   }
   
+  .capture-button-wrapper {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+  }
+  
+  .capture-message {
+    position: fixed;
+    bottom: 90px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    font-size: 1.2rem;
+    text-align: center;
+  }
+  
   

@@ -168,13 +168,12 @@ export default function CameraPage() {
           {countdown}
         </div>
       )}
-
-      <div style={{ marginTop: "20px", textAlign: "center" }}>
-        <button className="floating-button" onClick={handleCountdownCapture}>
-          <img src={captureButton} alt="Capture" className="button-image" />
-        </button>
-        {message && <p style={{ marginTop: "10px", color: "white" }}>{message}</p>}
-      </div>
-    </div>
+        <div className="capture-button-wrapper">
+            <button className="floating-button" onClick={handleCountdownCapture}>
+                <img src={captureButton} alt="Capture" className="button-image" />
+            </button>
+        </div>
+        {message && <p className="capture-message">{message}</p>}
+        </div>
   );
 }
