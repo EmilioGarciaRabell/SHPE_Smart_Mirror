@@ -89,22 +89,26 @@ export default function CameraPage() {
   const handleCountdownCapture = () => {
     let sec = 3;
     setCountdown(sec);
-
+  
     const interval = setInterval(() => {
       sec -= 1;
       if (sec <= 0) {
         clearInterval(interval);
         setCountdown(null);
-        stopWebcam(); // release webcam before backend captures
+        stopWebcam(); // release webcam
+        console.log("[DEBUG] Webcam stream stopped. Waiting before backend call...");
+  
+        // wait 2 full seconds before triggering backend
         setTimeout(() => {
-            console.log("[DEBUG] Triggering backend capture...");
-            triggerBackendCapture();
-        }, 1500); // wait 1.5 seconds
+          console.log("[DEBUG] Triggering backend capture...");
+          triggerBackendCapture();
+        }, 2000);
       } else {
         setCountdown(sec);
       }
     }, 1000);
   };
+  
 
   const handleBack = () => {
     stopWebcam();
