@@ -9,7 +9,7 @@ export default function CameraPage() {
   const navigate = useNavigate();
 
   const [dateTime, setDateTime] = useState(new Date());
-  const [userName] = useState("Messi"); // Replace with dynamic user info later
+  const [userName] = useState("Antonios"); // Replace with dynamic user info later
   const [message, setMessage] = useState("");
   const [countdown, setCountdown] = useState(null);
 
