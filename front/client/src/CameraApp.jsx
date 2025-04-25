@@ -49,11 +49,20 @@ export default function CameraPage() {
 
   const stopWebcam = () => {
     if (streamRef.current) {
-      streamRef.current.getTracks().forEach((track) => track.stop());
+      console.log("[DEBUG] Stopping webcam tracks...");
+      streamRef.current.getTracks().forEach((track) => {
+        console.log(`[DEBUG] Stopping track: ${track.kind}`);
+        track.stop();
+      });
       streamRef.current = null;
-      if (videoRef.current) videoRef.current.srcObject = null;
+    }
+  
+    if (videoRef.current) {
+      videoRef.current.srcObject = null;
+      console.log("[DEBUG] Video srcObject cleared");
     }
   };
+  
 
   const triggerBackendCapture = async () => {
     try {
@@ -66,11 +75,11 @@ export default function CameraPage() {
       if (data.success) {
         setMessage(`✅ Image captured: ${data.image_name}`);
       } else {
-        setMessage(`❌ ${data.reason || "Capture failed"}`);
+        setMessage(`${data.reason || "Capture failed"}`);
       }
     } catch (err) {
       console.error("Capture error:", err);
-      setMessage("❌ Could not connect to server.");
+      setMessage("Could not connect to server.");
     }
 
     // Restart webcam after backend is done
@@ -87,7 +96,10 @@ export default function CameraPage() {
         clearInterval(interval);
         setCountdown(null);
         stopWebcam(); // release webcam before backend captures
-        triggerBackendCapture();
+        setTimeout(() => {
+            console.log("[DEBUG] Triggering backend capture...");
+            triggerBackendCapture();
+        }, 1500); // wait 1.5 seconds
       } else {
         setCountdown(sec);
       }
