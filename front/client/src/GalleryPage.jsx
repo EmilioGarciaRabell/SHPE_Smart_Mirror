@@ -52,10 +52,11 @@ export default function GalleryPage() {
             {images.map((src, i) => (
               <img
                 key={i}
-                src={`http://localhost:5000${src}`}
+                src={`http://localhost:5000${src}?t=${new Date().getTime()}`}
                 alt={`Image ${i}`}
                 className="gallery-img"
-              />
+                onClick={() => setSelectedImage(`http://localhost:5000${src}?t=${new Date().getTime()}`)}
+            />
             ))}
           </div>
         ) : (
