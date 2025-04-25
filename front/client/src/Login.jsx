@@ -12,6 +12,8 @@ export default function Login() {
   const [incorrectPin, setIncorrectPin] = useState(0);
   const [incorrectPinLock, setIncorrectPinLock] = useState(0);
   const [isScanning, setIsScanning] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
 
 
   const resetSleepTimer = useCallback(() => {
@@ -132,6 +134,7 @@ export default function Login() {
       setError("Please enter both username and PIN.");
       return;
     }
+    setIsLoading(true);
     try {
       const res = await fetch(`${API}/api/auth/pin`, {
         method: "POST",
@@ -163,6 +166,8 @@ export default function Login() {
     } catch (e) {
       console.error("Network or server error:", e);
       setError("Server error, try again later.");
+    }finally{
+      setIsLoading(false);
     }
   }
 
@@ -217,7 +222,9 @@ export default function Login() {
           <form onSubmit={tryPinLogin}>
             <input type="text" placeholder="Username" value={user} onChange={e => setUser(e.target.value)} disabled={incorrectPinLock > 0}/>
             <input type="password" placeholder="PIN" value={pin} onChange={e => setPin(e.target.value)} disabled={incorrectPinLock > 0}/>
-            <button type="submit" disabled={incorrectPinLock > 0} className="login-button">Login with PIN </button>
+            <button type="submit" disabled={incorrectPinLock > 0 || isLoading} className="login-button">
+              {isLoading ? <div className="spinner"></div> : "Login with PIN"}
+            </button>
             <button type="button" disabled={incorrectPinLock > 0} onClick={() => setStage("face")}>Back</button>
           </form>
         )}
@@ -231,7 +238,7 @@ export default function Login() {
           </form>
         )}
         {incorrectPinLock > 0 && (
-          <p className="error-text">⏳ Too many attempts. Try again in {incorrectPinLock} seconds.</p>
+          <p className="error-text">Too many attempts. Try again in {incorrectPinLock} seconds.</p>
         )}
         {countdown !== null && (
           <p className="countdown-text">Taking picture in... {countdown}</p>

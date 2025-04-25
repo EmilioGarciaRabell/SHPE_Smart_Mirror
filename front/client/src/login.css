@@ -187,6 +187,21 @@
     from { opacity: 0; }
     to   { opacity: 1; }
   }
+
+  .spinner {
+    width: 20px;
+    height: 20px;
+    border: 3px solid white;
+    border-top: 3px solid #888;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto;
+  }
+  
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+  
   
   
   
