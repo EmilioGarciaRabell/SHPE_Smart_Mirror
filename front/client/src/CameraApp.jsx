@@ -168,11 +168,9 @@ export default function CameraPage() {
           {countdown}
         </div>
       )}
-        <div className="capture-button-wrapper">
             <button className="floating-button" onClick={handleCountdownCapture}>
                 <img src={captureButton} alt="Capture" className="button-image" />
             </button>
-        </div>
         {message && <p className="capture-message">{message}</p>}
         </div>
   );
