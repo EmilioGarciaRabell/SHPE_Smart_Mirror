@@ -8,6 +8,8 @@ export default function CameraPage() {
   const videoRef = useRef(null);
   const navigate = useNavigate();
   const [dateTime, setDateTime] = useState(new Date());
+  const [userName] = useState("Messi"); // Set from login or context in future
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
       const timer = setInterval(() => setDateTime(new Date()), 1000);
