@@ -24,7 +24,10 @@ def registerUser():
     data = request.get_json()
     user_name = data.get("user_name")
     user_key = data.get("user_key")
-    result = register_User(user_name=user_name, user_key=user_key)
+    image_data = data.get("image") 
+    if not user_name or not user_key or not image_data:
+        return jsonify({"success": False, "reason": "Missing fields"}), 400
+    result = register_User(user_name=user_name, user_key=user_key, image_data=image_data)
     return jsonify(result), 200 if result["success"] else 400
 
 @app.route("/api/auth/face", methods=["GET"])

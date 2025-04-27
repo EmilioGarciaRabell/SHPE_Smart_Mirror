@@ -201,8 +201,46 @@ export default function Login() {
       setError("Please enter both username and PIN.");
       return;
     }
-    setCountdown(3);
+  
+    if (!videoRef.current || videoRef.current.readyState < 2) {
+      setError("Camera not ready. Please wait a moment.");
+      return;
+    }
+  
+    try {
+      const canvas = document.createElement("canvas");
+      canvas.width = videoRef.current.videoWidth;
+      canvas.height = videoRef.current.videoHeight;
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
+      const base64Image = canvas.toDataURL("image/jpeg");
+  
+      const res = await fetch(`${API}/api/auth/register`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          user_name: user,
+          user_key: pin,
+          image: base64Image,
+        }),
+      });
+  
+      const data = await res.json();
+      if (res.ok && data.success) {
+        setSuccess("User registered successfully!");
+        setUser("");
+        setPin("");
+        stopWebcam();
+        setStage("face");
+      } else {
+        setError(data.reason || "Registration failed.");
+      }
+    } catch (err) {
+      console.error("Registration error:", err);
+      setError("Could not connect to server.");
+    }
   }
+  
 
   function getGreeting() {
     const hour = dateTime.getHours();

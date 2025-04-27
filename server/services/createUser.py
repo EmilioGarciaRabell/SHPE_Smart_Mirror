@@ -4,6 +4,7 @@ import json
 import time as t
 import traceback
 from services.faceRecScript import faceRec
+import base64
 
 """
 Directory to access the users.json file and the faces folder
@@ -15,23 +16,17 @@ FACES_DIR = os.path.join(DATA_DIR, "faces")
 
 fr = faceRec()
 
-def register_User(user_name: str, user_key: str) -> dict:
+def register_User(user_name: str, user_key: str, image_data: str) -> dict:
     try:
-        if not user_name or not user_key:
-            return {"success": False, "reason": "Missing username or pin"}
+        if not user_name or not user_key or not image_data:
+            return {"success": False, "reason": "Missing data"}
         userFace = f"{user_name}.jpg"
         userFacePath = os.path.join(FACES_DIR, userFace)
-        webcamCapture = cv2.VideoCapture(0)
-        if not webcamCapture:
-            return {"success": False, "reason": "Webcam error"}
-        t.sleep(2)
-        for _ in range(5):
-            webcamCapture.read()
-        ret, frame = webcamCapture.read()
-        webcamCapture.release()
-        if not ret:
-            return {"success": False, "reason": "Capture failed"}
-        cv2.imwrite(userFacePath, frame)
+        if "," in image_data:
+            image_data = image_data.split(",")[1] 
+        img_bytes = base64.b64decode(image_data)
+        with open(userFacePath, "wb") as f:
+            f.write(img_bytes)
         if not os.path.exists(JSONFILE_DIR):
             users = []
         else:
@@ -53,7 +48,7 @@ def register_User(user_name: str, user_key: str) -> dict:
         fr.knownFaceNames = []
         fr.encodeFaces()
         return {"success": True, "user": user_name}
-    except:
+    except Exception as e:
         print("Registration failed with exception:")
         traceback.print_exc()
         return {"success": False, "reason": "internal_error"}
