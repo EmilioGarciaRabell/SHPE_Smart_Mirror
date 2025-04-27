@@ -13,9 +13,31 @@ export default function Login() {
   const [incorrectPinLock, setIncorrectPinLock] = useState(0);
   const [isScanning, setIsScanning] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const videoRef = useRef(null);
+  const streamRef = useRef(null);
 
-
-
+  const startWebcam = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      streamRef.current = stream;
+      if (videoRef.current) {
+        videoRef.current.srcObject = stream;
+      }
+    } catch (err) {
+      console.error("Webcam access error:", err);
+    }
+  };
+  
+  const stopWebcam = () => {
+    if (streamRef.current) {
+      streamRef.current.getTracks().forEach(track => track.stop());
+      streamRef.current = null;
+    }
+    if (videoRef.current) {
+      videoRef.current.srcObject = null;
+    }
+  };
+  
   const resetSleepTimer = useCallback(() => {
     clearTimeout(window._idleTimer);
     window._idleTimer = setTimeout(() => {
@@ -211,7 +233,11 @@ export default function Login() {
           ) : (
             <>
               <button className="login-button" onClick={tryFaceLogin}>Login with Face</button>
-              <button className="login-button" onClick={() => setStage("register")}>Register New User</button>
+              <button className="login-button" onClick={() => {
+                  setStage("register");
+                  startWebcam();
+                }}> Register New User
+              </button>
             </>
           )
         )}
@@ -231,11 +257,26 @@ export default function Login() {
 
         {stage === "register" && (
           <form onSubmit={tryRegisterUser}>
-            <input type="text" placeholder="New Username" value={user} onChange={e => setUser(e.target.value)} />
-            <input type="password" placeholder="New PIN" value={pin} onChange={e => setPin(e.target.value)} />
-            <button type="submit" className="login-button">Register with Face</button>
-            <button type="button" onClick={() => setStage("face")}>Back</button>
-          </form>
+          <div className="camera-wrapper">
+            <video
+              ref={videoRef}
+              autoPlay
+              muted
+              playsInline
+              className="camera-video"
+              width="320"
+              height="240"
+            />
+          </div>
+          <input type="text" placeholder="New Username" value={user} onChange={e => setUser(e.target.value)} />
+          <input type="password" placeholder="New PIN" value={pin} onChange={e => setPin(e.target.value)} />
+          <button type="submit" className="login-button">Register with Face</button>
+          <button type="button" onClick={() => {
+            setStage("face");
+            stopWebcam();
+          }}>Back</button>
+        </form>
+        
         )}
         {incorrectPinLock > 0 && (
           <p className="error-text">Too many attempts. Try again in {incorrectPinLock} seconds.</p>
