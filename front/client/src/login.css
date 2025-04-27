@@ -201,6 +201,32 @@
   @keyframes spin {
     to { transform: rotate(360deg); }
   }
+
+  .face-guide-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 160px;
+    height: 160px;
+    transform: translate(-50%, -50%);
+    border: 2px dashed white;
+    border-radius: 12px;
+    pointer-events: none; 
+    animation: pulseFace 2s infinite;
+  }
+  
+  @keyframes pulseFace {
+    0% {
+      box-shadow: 0 0 5px rgba(255, 255, 255, 0.7);
+    }
+    50% {
+      box-shadow: 0 0 15px rgba(255, 255, 255, 1);
+    }
+    100% {
+      box-shadow: 0 0 5px rgba(255, 255, 255, 0.7);
+    }
+  }
+  
   
   
   

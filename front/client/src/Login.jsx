@@ -209,6 +209,23 @@ export default function Login() {
       return;
     }
   
+    setIsLoading(true);
+  
+    let sec = 3;
+    setCountdown(sec);
+  
+    const countdownInterval = setInterval(() => {
+      sec -= 1;
+      setCountdown(sec);
+      if (sec <= 0) {
+        clearInterval(countdownInterval);
+        captureAndSendRegistration();
+      }
+    }, 1000);
+  }
+  
+  
+  async function captureAndSendRegistration() {
     try {
       const canvas = document.createElement("canvas");
       canvas.width = videoRef.current.videoWidth;
@@ -240,6 +257,9 @@ export default function Login() {
     } catch (err) {
       console.error("Registration error:", err);
       setError("Could not connect to server.");
+    } finally {
+      setIsLoading(false);
+      setCountdown(null);
     }
   }
   
@@ -297,27 +317,55 @@ export default function Login() {
 
         {stage === "register" && (
           <form onSubmit={tryRegisterUser}>
-          <div className="camera-wrapper">
-            <video
-              ref={videoRef}
-              autoPlay
-              muted
-              playsInline
-              className="camera-video"
-              width="320"
-              height="240"
+            <div className="camera-wrapper" style={{ position: "relative" }}>
+              <video
+                ref={videoRef}
+                autoPlay
+                muted
+                playsInline
+                className="camera-video"
+                width="320"
+                height="240"
+              />
+              <div className="face-guide-overlay"></div>
+            </div>
+            
+            <input
+              type="text"
+              placeholder="New Username"
+              value={user}
+              onChange={(e) => setUser(e.target.value)}
+              disabled={isLoading}
             />
-          </div>
-          <input type="text" placeholder="New Username" value={user} onChange={e => setUser(e.target.value)} />
-          <input type="password" placeholder="New PIN" value={pin} onChange={e => setPin(e.target.value)} />
-          <button type="submit" className="login-button">Register with Face</button>
-          <button type="button" onClick={() => {
-            setStage("face");
-            stopWebcam();
-          }}>Back</button>
-        </form>
-        
+            <input
+              type="password"
+              placeholder="New PIN"
+              value={pin}
+              onChange={(e) => setPin(e.target.value)}
+              disabled={isLoading}
+            />
+
+            {countdown !== null ? (
+              <p className="countdown-text">Taking picture in... {countdown}</p>
+            ) : (
+              <button type="submit" disabled={isLoading} className="login-button">
+                {isLoading ? <div className="spinner"></div> : "Register with Face"}
+              </button>
+            )}
+
+            <button
+              type="button"
+              onClick={() => {
+                setStage("face");
+                stopWebcam();
+              }}
+              disabled={isLoading}
+            >
+              Back
+            </button>
+          </form>
         )}
+
         {incorrectPinLock > 0 && (
           <p className="error-text">Too many attempts. Try again in {incorrectPinLock} seconds.</p>
         )}
