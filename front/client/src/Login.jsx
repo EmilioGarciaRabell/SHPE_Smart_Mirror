@@ -25,8 +25,10 @@ export default function Login() {
       }
     } catch (err) {
       console.error("Webcam access error:", err);
+      setError("Could not access webcam. Please check camera connection and permissions.");
     }
   };
+  
   
   const stopWebcam = () => {
     if (streamRef.current) {
