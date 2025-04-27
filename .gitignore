@@ -1,1 +1,5 @@
 *.env
+.python-version
+server/data/
+Pipfile
+Pipfile.lock
