@@ -1,6 +1,8 @@
 #!/bin/bash
 set -euo pipefail
 
+export PYTHONIOENCODING=utf-8
+
 PYTHON_VERSION=3.9.18
 VENV_NAME=py3.9env
 
@@ -53,6 +55,10 @@ pip install Flask==2.2.2 \
                 psycopg2-binary \
                 face-recognition \
                 opencv-python \
-                jokeapi
+                jokeapi \
+                werkzeug==2.2.2 \
+                requests \
+                bs4 \
+                dotenv
 
 echo "Installation complete."
