@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# Kill any process using port 5000 (Flask default)
+echo "Killing any process using port 5000..."
+fuser -k 5000/tcp
+
+
 # Go to the backend directory
 cd ~/SHPE_Smart_Mirror/server || exit 1
 
