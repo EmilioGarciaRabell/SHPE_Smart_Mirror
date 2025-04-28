@@ -369,9 +369,6 @@ export default function Login() {
         {incorrectPinLock > 0 && (
           <p className="error-text">Too many attempts. Try again in {incorrectPinLock} seconds.</p>
         )}
-        {countdown !== null && (
-          <p className="countdown-text">Taking picture in... {countdown}</p>
-        )}
         {error && <p className="error-text">{error}</p>}
         {success && <p className="success-text">{success}</p>}
       </div>
