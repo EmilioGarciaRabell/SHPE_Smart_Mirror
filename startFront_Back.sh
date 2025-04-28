@@ -12,7 +12,7 @@ python app.py &
 BACKEND_PID=$!
 
 # Go to the frontend directory
-cd ../frontend || exit 1
+cd ../front/client || exit 1
 
 # Start the frontend
 echo "Starting Vite frontend..."
