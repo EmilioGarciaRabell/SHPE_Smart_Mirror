@@ -244,8 +244,14 @@ export default function Login() {
         }),
       });
   
+      if (!res.ok) {
+        // If server responds with error, handle it without trying to parse bad JSON
+        throw new Error("Registration request failed with status " + res.status);
+      }
+  
       const data = await res.json();
-      if (res.ok && data.success) {
+  
+      if (data.success) {
         setSuccess("User registered successfully!");
         setUser("");
         setPin("");
@@ -256,12 +262,13 @@ export default function Login() {
       }
     } catch (err) {
       console.error("Registration error:", err);
-      setError("Could not connect to server.");
+      setError("Could not connect to server or registration failed.");
     } finally {
       setIsLoading(false);
       setCountdown(null);
     }
   }
+  
   
 
   function getGreeting() {
