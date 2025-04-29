@@ -80,7 +80,12 @@ export default function Login() {
   }, []);
 
   useEffect(() => {
-    if (countdown === null || countdown <= 0) return;
+    if (countdown === null) return;
+
+    if (countdown <= 0) {
+      setCountdown(null);
+      return;
+    }
   
     const timer = setTimeout(() => {
       setCountdown((prev) => prev - 1);
