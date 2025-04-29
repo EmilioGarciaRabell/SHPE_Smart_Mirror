@@ -86,32 +86,9 @@ export default function Login() {
       setCountdown((prev) => prev - 1);
     }, 1000);
   
-    if (countdown === 1) {
-      // Final second: trigger actual registration
-      fetch(`${API}/api/auth/register`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ user_name: user, user_key: pin }),
-      })
-        .then((res) => res.json().then(data => ({ ok: res.ok, data })))
-        .then(({ ok, data }) => {
-          if (ok) {
-            setSuccess("User registered successfully!");
-            setUser("");
-            setPin("");
-            setStage("face");
-          } else {
-            setError(data.error || "Registration failed.");
-          }
-        })
-        .catch(() => {
-          setError("Registration error.");
-        })
-        .finally(() => setCountdown(null));
-    }
-  
     return () => clearTimeout(timer);
   }, [countdown]);
+  
 
   const formattedTime = dateTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   const formattedDate = dateTime.toLocaleDateString([], {
