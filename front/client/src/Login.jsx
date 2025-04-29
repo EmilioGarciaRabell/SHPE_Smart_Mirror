@@ -257,7 +257,10 @@ export default function Login() {
         setUser("");
         setPin("");
         stopWebcam();
-        setStage("face");
+        setTimeout(() => {
+          setSuccess("");
+          setStage("face");
+        }, 1500);
       } else {
         setError(data.reason || "Registration failed.");
         setSuccess("")
@@ -305,6 +308,8 @@ export default function Login() {
               <button className="login-button" onClick={tryFaceLogin}>Login with Face</button>
               <button className="login-button" onClick={() => {
                   setStage("register");
+                  setError("");
+                  setSuccess("");
                   startWebcam();
                 }}> Register New User
               </button>
@@ -367,6 +372,8 @@ export default function Login() {
               type="button"
               onClick={() => {
                 setStage("face");
+                setError("");
+                setSuccess("");
                 stopWebcam();
               }}
               disabled={isLoading}
