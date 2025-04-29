@@ -44,9 +44,13 @@ def register_User(user_name: str, user_key: str, image_data: str) -> dict:
             json.dump(users, f, indent=4)
         fr.users = users
         fr.userKeys = {u['user_name']: u['user_key'] for u in users}
-        fr.knownFaceEncodings = []
-        fr.knownFaceNames = []
-        fr.encodeFaces()
+        try:
+            fr.knownFaceEncodings = []
+            fr.knownFaceNames = []
+            fr.encodeFaces()
+        except Exception as face_error:
+            print("Warning: Face encoding failed:", face_error)
+            # Still proceed even if face encoding failed.
         return {"success": True, "user": user_name}
     except Exception as e:
         print("Registration failed with exception:")
