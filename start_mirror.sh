@@ -4,7 +4,7 @@
 echo "Killing any process using port 5000..."
 fuser -k 5000/tcp
 
-export VITE_API_URL="http://localhost:5000"
+#export VITE_API_URL="http://localhost:5000"
 
 # Start the backend (Flask app) in the background
 echo "Starting backend..."
