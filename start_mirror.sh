@@ -13,7 +13,7 @@ cd ..
 
 # Start the frontend (Vite) in the background
 echo "Starting frontend..."
-cd ../front/client || exit 1
+cd ~/SHPE_Smart_Mirror/front/client || exit 1
 npm run dev &
 FRONTEND_PID=$!
 
