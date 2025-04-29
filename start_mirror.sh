@@ -4,12 +4,9 @@
 echo "Killing any process using port 5000..."
 fuser -k 5000/tcp
 
-# Navigate to your project folder
-cd ~/SHPE_Smart_Mirror || exit 1
-
 # Start the backend (Flask app) in the background
 echo "Starting backend..."
-cd server || exit 1
+cd ~/SHPE_Smart_Mirror/server || exit 1
 python app.py &
 BACKEND_PID=$!
 cd ..
