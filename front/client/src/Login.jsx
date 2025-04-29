@@ -253,16 +253,19 @@ export default function Login() {
   
       if (data.success) {
         setSuccess("User registered successfully!");
+        setError("")
         setUser("");
         setPin("");
         stopWebcam();
         setStage("face");
       } else {
         setError(data.reason || "Registration failed.");
+        setSuccess("")
       }
     } catch (err) {
       console.error("Registration error:", err);
       setError("Could not connect to server or registration failed.");
+      setSuccess("")
     } finally {
       setIsLoading(false);
       setCountdown(null);
