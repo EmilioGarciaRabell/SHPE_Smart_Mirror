@@ -11,7 +11,6 @@ echo "Starting backend..."
 cd ~/SHPE_Smart_Mirror/server || exit 1
 python app.py &
 BACKEND_PID=$!
-cd ..
 
 # Start the frontend (Vite) in the background
 echo "Starting frontend..."
@@ -24,7 +23,7 @@ sleep 8
 
 # Open Chromium in fullscreen to localhost:5173
 echo "Opening Chromium in fullscreen mode..."
-chromium-browser --no-sandbox --disable-gpu --start-fullscreen http://localhost:5173 &
+chromium-browser --start-fullscreen http://localhost:5173 &
 
 
 # Wait for background processes if needed
