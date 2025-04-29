@@ -16,7 +16,7 @@ cd ..
 
 # Start the frontend (Vite) in the background
 echo "Starting frontend..."
-cd client || exit 1
+cd ../front/client || exit 1
 npm run dev &
 FRONTEND_PID=$!
 
