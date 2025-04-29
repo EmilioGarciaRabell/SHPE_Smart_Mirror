@@ -17,7 +17,7 @@ cd ..
 echo "Starting frontend..."
 cd ~/SHPE_Smart_Mirror/front/client || exit 1
 npm install
-npm run build &
+npm run dev &
 FRONTEND_PID=$!
 
 # Give the frontend a few seconds to fully start
@@ -25,7 +25,8 @@ sleep 8
 
 # Open Chromium in fullscreen to localhost:5173
 echo "Opening Chromium in fullscreen mode..."
-chromium-browser --start-fullscreen http://localhost:5173 &
+chromium-browser --no-sandbox --disable-gpu --start-fullscreen http://localhost:5173 &
+
 
 # Wait for background processes if needed
 wait $BACKEND_PID
