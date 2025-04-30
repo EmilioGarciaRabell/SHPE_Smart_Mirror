@@ -16,6 +16,23 @@ FACES_DIR = os.path.join(DATA_DIR, "faces")
 
 fr = faceRec()
 
+"""
+This function is used to create a user for the smart mirror. It decodes the raw face capture data
+from the frontend and converts it a jpeg file, which is then stored in the faces directory. Then 
+the function writes the user's data to the users.json file. When the user's data is saved to the
+json file, the function reads the json file with the updated file so that it can encode the new
+user's face. It also uses try statements so the application doesn't crash. If everything is successful,
+the function returns a dictionary, which is then used in the app route registerUser() so that the front end
+can call this backend function.
+Paramters:
+    user_name(str): Input string from the frontend used as the username of user.
+    user_key(str): Input string from the frontend used as the pin of user in case facial fails.
+    image_data(str): Frontend picture capture raw data, which is then converted to jpeg.
+Return:
+    (dictionary): Contains the success status (boolean) with either the reason of failure if the
+                  function failed to create user or the name of user when the function saves the
+                  user data successfully.
+"""
 def register_User(user_name: str, user_key: str, image_data: str) -> dict:
     try:
         if not user_name or not user_key or not image_data:

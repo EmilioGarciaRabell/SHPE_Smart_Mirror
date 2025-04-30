@@ -18,7 +18,11 @@ CORS(app)
 fr = faceRec()
 faceTH = 85
 
-
+"""
+This function calls the register_User service function which handles all of the file I/O.
+It recieves the dictionary with the success status and reason/user_name depending on if 
+the function successfully created the user data or failed.
+"""
 @app.route("/api/auth/register", methods=["POST"])
 def registerUser():
     data = request.get_json()
@@ -31,6 +35,9 @@ def registerUser():
     result = register_User(user_name=user_name, user_key=user_key, image_data=image_data)
     return jsonify(result), 200 if result["success"] else 400
 
+"""
+This function 
+"""
 @app.route("/api/auth/face", methods=["GET"])
 def faceAuth():
     result = l.faceLogin()

@@ -5,7 +5,17 @@ import getpass as g
 faceTH = 85
 frLockOut = 5
 
-
+"""
+This function uses the faceRec data class function authUser, which contains
+the facial recognition logic. The authUser then returns the name of user and
+there facial match percentage comparing the current face capture to the stored
+face pictures. If the percentage is 85% or more, this function returns a dictionary
+with the success status, name of user, and percentage match. Otherwise it returns
+a the success status and the reason that the facial recognition failed. This function
+runs the facial recognition for 5 seconds, then terminates if the face is not recognized.
+Return:
+    (dictionary): contains the success status()
+"""
 def faceLogin() -> dict:
     fr = faceRec()
     start = t.time()
