@@ -10,11 +10,11 @@ import time as t
 import os
 import json
 import traceback
-from server.services.RITNews import RITNewsApi
-from server.services.Weather import Weather
-from server.services.TrafficLevel import TrafficLevel
-from server.services.LocalNews import LocalNews
-from server.services.JokeGenerator import Joke
+from services.RITNews import RITNewsApi
+from services.Weather import Weather
+from services.TrafficLevel import TrafficLevel
+from services.LocalNews import LocalNews
+from services.JokeGenerator import Joke
 from dotenv import load_dotenv
 
 
