@@ -4,7 +4,8 @@ from services.createUser import register_User
 from services.camera_script import image_recieve_ui
 from services.user_gallery import get_user_gallery
 import services.login as l
-from flask_cors import CORS, Api
+from flask_cors import CORS
+from flask_restful import Api
 import time as t
 import os
 import json
