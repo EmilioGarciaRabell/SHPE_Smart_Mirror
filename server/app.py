@@ -6,14 +6,20 @@ from services.user_gallery import get_user_gallery
 import services.login as l
 from flask_cors import CORS
 import time as t
-import cv2
 import os
 import json
 import traceback
+from RITNews import RITNewsApi
+from Weather import Weather
+from TrafficLevel import TrafficLevel
+from LocalNews import LocalNews
+from JokeGenerator import Joke
+from dotenv import load_dotenv
 
 
 app = Flask(__name__)
 CORS(app)
+api = Api(app)
 
 fr = faceRec()
 faceTH = 85
@@ -78,23 +84,8 @@ def gallery():
 def serve_user_image(user_id, filename):
     return send_from_directory(os.path.join("data", "user_data", user_id), filename)
 
-if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=5000, debug=True)
-from flask import Flask
-from flask_restful import Api
-from flask_cors import CORS
-from RITNews import RITNewsApi
-from Weather import Weather
-from TrafficLevel import TrafficLevel
-from LocalNews import LocalNews
-from JokeGenerator import Joke
-from dotenv import load_dotenv
 
 load_dotenv()
-
-app = Flask(__name__)
-CORS(app)
-api = Api(app)
 
 api.add_resource(RITNewsApi, "/api/rit-news")
 api.add_resource(Weather, "/api/weather")
