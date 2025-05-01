@@ -3,7 +3,8 @@ import { useNavigate } from "react-router-dom";
 import "./login.css";
 export default function GalleryPage() {
   const [images, setImages] = useState([]);
-  const [userName] = useState("Antonios"); //change this for later
+  const user = sessionStorage.getItem("user")
+  const [userName] = useState(user);
   const [dateTime, setDateTime] = useState(new Date());
   const navigate = useNavigate();
 

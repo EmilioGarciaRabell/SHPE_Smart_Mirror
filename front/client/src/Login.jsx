@@ -8,7 +8,7 @@ export default function Login() {
   const [dateTime, setDateTime] = useState(new Date());
   const navigate = useNavigate();
   const [countdown, setCountdown] = useState(null); // null = not counting
-  const sleepTimer = 60*1000;// 1 minute timer
+  const sleepTimer = 5*60*1000;// 5 minute timer
   const [incorrectPin, setIncorrectPin] = useState(0);
   const [incorrectPinLock, setIncorrectPinLock] = useState(0);
   const [isScanning, setIsScanning] = useState(false);
@@ -115,6 +115,7 @@ export default function Login() {
       const res = await fetch(`${API}/api/auth/face`, { method: "GET" });
       if (res.ok) {
         const { user: faceUser } = await res.json();
+        sessionStorage.setItem('user', faceUser);
         console.log("Welcome back", faceUser);
         navigate("/main");
       } else {
@@ -149,6 +150,7 @@ export default function Login() {
       });
       if (res.ok) {
         console.log("PIN correct, welcome", user);
+        sessionStorage.setItem('user', user);
         setIncorrectPin(0);
         navigate("/main");
       } else {

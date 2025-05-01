@@ -6,10 +6,10 @@ import captureButton from "./assets/captureButton.png";
 export default function CameraPage() {
   const videoRef = useRef(null);
   const streamRef = useRef(null); // stores the MediaStream so we can stop it
-  const navigate = useNavigate();
-
+  const navigate = useNavigate()
+  const user = sessionStorage.getItem('user')
   const [dateTime, setDateTime] = useState(new Date());
-  const [userName] = useState("Antonios"); // Replace with dynamic user info later
+  const [userName] = useState(user); // Replace with dynamic user info later
   const [message, setMessage] = useState("");
   const [countdown, setCountdown] = useState(null);
 
