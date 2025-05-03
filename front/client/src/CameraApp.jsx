@@ -3,6 +3,7 @@ import "./login.css";
 import { useNavigate } from "react-router-dom";
 import captureButton from "./assets/captureButton.png";
 import homeButton from "./assets/homebutton.png";
+import galleryButton from "./assets/galleryButton.png";
 
 export default function CameraPage() {
   const videoRef = useRef(null);
@@ -190,6 +191,10 @@ export default function CameraPage() {
 
       <button className="home-button" onClick={handleBack}>
         <img src={homeButton} alt="Go Home"/>
+      </button>
+
+      <button className="gallery-button">
+        <img src={galleryButton} alt="Gallery"/>
       </button>
       
     </div>
