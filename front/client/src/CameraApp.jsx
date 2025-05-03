@@ -187,11 +187,11 @@ export default function CameraPage() {
                 <img src={captureButton} alt="Capture" className="button-image" />
             </button>
         {message && <p className="capture-message">{message}</p>}
-        <div className="back-button-container">
-          <button className="back-button" onClick={handleBack}>
-            <img src={homeButton} alt="Go Home"/>
-          </button>
-        </div>
+
+      <button className="back-button-container" onClick={handleBack}>
+        <img src={homeButton} alt="Go Home"/>
+      </button>
+      
     </div>
   );
 }
