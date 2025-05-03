@@ -238,10 +238,15 @@
   pointer-events: none;
 }
 
-.back-button:hover {
-  background: #ffffff;
+.home-button {
+  position: fixed;
+  bottom: 20px;           /* distance from bottom */
+  left: 50%;              /* start at horizontal center */
+  transform: translateX(-50%); /* shift back by half its width */
+  z‑index: 100;
+  background: none;
+  border: none;
 }
-  
   
   
   
