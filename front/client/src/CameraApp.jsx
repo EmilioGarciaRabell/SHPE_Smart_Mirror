@@ -188,7 +188,7 @@ export default function CameraPage() {
             </button>
         {message && <p className="capture-message">{message}</p>}
 
-      <button className="back-button-container" onClick={handleBack}>
+      <button className="floating-button" onClick={handleBack}>
         <img src={homeButton} alt="Go Home"/>
       </button>
       
