@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 import "./login.css";
 import { useNavigate } from "react-router-dom";
 import captureButton from "./assets/captureButton.png";
+import homeButton from "./assets/icons8-home-button-100.png";
 
 export default function CameraPage() {
   const videoRef = useRef(null);
@@ -154,7 +155,7 @@ export default function CameraPage() {
 
   const handleBack = () => {
     stopWebcam();
-    navigate("/");
+    navigate("/MainPage");
   };
 
   return (
@@ -186,6 +187,11 @@ export default function CameraPage() {
                 <img src={captureButton} alt="Capture" className="button-image" />
             </button>
         {message && <p className="capture-message">{message}</p>}
+        <div className="back-button-container">
+          <button className="back-button" onClick={handleBack}>
+            Go Home
+          </button>
         </div>
+    </div>
   );
 }
