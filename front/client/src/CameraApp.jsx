@@ -155,7 +155,7 @@ export default function CameraPage() {
 
   const handleBack = () => {
     stopWebcam();
-    navigate("/MainPage");
+    navigate("/main");
   };
 
   return (
@@ -189,7 +189,7 @@ export default function CameraPage() {
         {message && <p className="capture-message">{message}</p>}
         <div className="back-button-container">
           <button className="back-button" onClick={handleBack}>
-            Go Home
+            <img src={homeButton} alt="Go Home"/>
           </button>
         </div>
     </div>
