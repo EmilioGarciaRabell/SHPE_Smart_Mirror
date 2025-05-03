@@ -151,7 +151,10 @@ export default function CameraPage() {
     }, 1000);
   };
   
-  
+  const handleGallery = () => {
+    stopWebcam();
+    navigate("/gallery");
+  }
   
 
   const handleBack = () => {
@@ -193,7 +196,7 @@ export default function CameraPage() {
         <img src={homeButton} alt="Go Home"/>
       </button>
 
-      <button className="gallery-button">
+      <button className="gallery-button" onClick={handleGallery}>
         <img src={galleryButton} alt="Gallery"/>
       </button>
       
