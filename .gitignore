@@ -1,5 +1,4 @@
 start_mirror_vm.sh
-*.env
 .python-version
 server/data/
 Pipfile
