@@ -74,7 +74,7 @@ export default function GalleryPage() {
       <button className="floating-button" onClick={handleCamera}>
           <img src={captureButton} alt="Capture" className="button-image" />
       </button>
-      <button className="home-button" onClick={handleBack}>
+      <button className="home-button" onClick={handleHome}>
           <img src={homeButton} alt="Go Home"/>
       </button>
     </div>
