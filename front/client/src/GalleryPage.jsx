@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./login.css";
+import captureButton from "./assets/captureButton.png";
+import homeButton from "./assets/homebutton.png";
+
 export default function GalleryPage() {
   const [images, setImages] = useState([]);
   const user = sessionStorage.getItem("user")
@@ -36,8 +39,12 @@ export default function GalleryPage() {
     year: "numeric",
   });
 
-  const handleBack = () => {
+  const handleCamera = () => {
     navigate("/camera");
+  };
+
+  const handleHome = () => {
+    navigate("/main");
   };
 
   return (
@@ -64,11 +71,12 @@ export default function GalleryPage() {
           <p style={{ color: "white", textAlign: "center" }}>No images found.</p>
         )}
       </div>
-      <div className="capture-button-wrapper">
-        <button className="floating-button" onClick={handleBack}>
-          ⬅
-        </button>
-      </div>
+      <button className="floating-button" onClick={handleCamera}>
+          <img src={captureButton} alt="Capture" className="button-image" />
+      </button>
+      <button className="home-button" onClick={handleBack}>
+          <img src={homeButton} alt="Go Home"/>
+      </button>
     </div>
   );
 }
