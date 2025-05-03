@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 import "./login.css";
 import { useNavigate } from "react-router-dom";
 import captureButton from "./assets/captureButton.png";
-import homeButton from "./assets/icons8-home-button-100.png";
+import homeButton from "./assets/homebutton.png";
 
 export default function CameraPage() {
   const videoRef = useRef(null);
