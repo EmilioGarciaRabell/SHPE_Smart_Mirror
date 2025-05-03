@@ -16,6 +16,13 @@ export default function Login() {
   const videoRef = useRef(null);
   const streamRef = useRef(null);
 
+  useEffect(() => {
+      navigator.mediaDevices.enumerateDevices().then((devices) => {
+        console.log("Available media devices:");
+        devices.forEach((d) => console.log(`${d.kind}: ${d.label || "(no label)"} - ${d.deviceId}`));
+      });
+    }, []);
+
   const startWebcam = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ video: true });
