@@ -36,7 +36,10 @@ const CameraPanel = ({ onClose }) => {
   }, []);
 
   return (
-    <PanelWrapper title="Camera" icon={<FaCamera />} onClose={onClose}>
+    <PanelWrapper title="Camera" icon={<FaCamera
+      onClick={() => navigate('/camera')}
+      style={{ cursor: 'pointer' }}
+    />} onClose={onClose}>
       <video
         ref={videoRef}
         autoPlay
