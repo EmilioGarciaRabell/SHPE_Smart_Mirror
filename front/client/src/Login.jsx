@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef } from "react"; 
 import { useNavigate } from "react-router-dom"; 
 import "./login.css";
-import "./app.css";
+//import "./app.css";
 import faceIdIcon from "./assets/faceIdIcon.png"
 import DateTime from './components/DateTime';
 
