@@ -1,5 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 import PanelWrapper from './PanelWrapper';
+import { useNavigate } from "react-router-dom"; 
 import { FaCamera } from 'react-icons/fa';
 
 const CameraPanel = ({ onClose }) => {
