@@ -2,13 +2,12 @@
 .login-container {
     height: 100vh;
     width: 100vw;
-    background-color: #000000;
+    background-color: #1a1a1a;
     color: white;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: stretch;
-    padding: 2rem;
     box-sizing: border-box;
   }
   
@@ -46,6 +45,7 @@
   /* Centered login box */
   .login-box {
     margin: 0 auto;
+    margin-top: 50%;
     background-color: #2a2a2a;
     padding: 2.5rem 3.5rem;
     border-radius: 12px;
@@ -75,6 +75,7 @@
     border-radius: 6px;
     cursor: pointer;
     transition: background-color 0.3s;
+    margin: 10px;
   }
   
   .login-button:hover {

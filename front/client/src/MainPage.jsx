@@ -10,7 +10,10 @@ import WeatherPanel from './components/WeatherPanel';
 import { FaCloudSun } from 'react-icons/fa';
 import JokeGenerator from './components/JokeGenerator';
 import { FaLaughBeam } from 'react-icons/fa';
-
+import CameraPanel from './components/CameraPanel';
+import { FaCamera } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
+import { FaSignOutAlt } from 'react-icons/fa';
 
 
 function App() {
@@ -18,6 +21,17 @@ function App() {
   const [selectedArticle, setSelectedArticle] = useState(null); // article to show
   const [articleSourcePanel, setArticleSourcePanel] = useState(null); // 'news' or 'rit'
   const [showDateTime, setShowDateTime] = useState(true);
+
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    sessionStorage.removeItem('user');
+    setSelectedArticle(null);
+    setArticleSourcePanel(null);
+    setOpenPanels([]);
+    navigate("/");
+  };
+
 
   const openPanel = (panelKey) => {
     let updated = [...openPanels];
@@ -72,7 +86,6 @@ function App() {
           <div
             style={{
               width: '90%',
-              borderBottom: '1px solid #fff',
             }}
           >
             <DateTime />
@@ -168,10 +181,38 @@ function App() {
             );
           }
 
+          if (panelKey === 'camera') {
+            return (
+              <CameraPanel
+                key="camera"
+                onClose={() => closePanel('camera')}
+              />
+            );
+          }
 
           return null;
         })}
       </div>
+
+      <div style={{
+        position: 'absolute',
+        bottom: '90px',
+        right: '30px',
+        zIndex: 999,
+      }}>
+        <button
+          onClick={handleLogout}
+          style={{
+            background: 'none',
+            border: 'none',
+            color: 'white',
+            cursor: 'pointer'
+          }}
+        >
+          <FaSignOutAlt size={40} />
+        </button>
+      </div>
+
 
       {/* Bottom buttons */}
       <div className="bottom-bar-wrapper">
@@ -182,17 +223,20 @@ function App() {
           <button onClick={() => openPanel('rit')}>
             <FaUniversity size={40} />
           </button>
-          <button onClick={() => setShowDateTime(!showDateTime)}>
-            <FaClock size={40} />
-          </button>
           <button onClick={() => openPanel('weather')}>
             <FaCloudSun size={40} />
+          </button>
+          <button onClick={() => setShowDateTime(!showDateTime)}>
+            <FaClock size={40} />
           </button>
           <button onClick={() => openPanel('traffic')}>
             <FaCar size={40} />
           </button>
           <button onClick={() => openPanel('joke')}>
             <FaLaughBeam size={40} />
+          </button>
+          <button onClick={() => openPanel('camera')}>
+            <FaCamera size={40} />
           </button>
         </div>
       </div>

@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useCallback, useRef } from "react"; 
 import { useNavigate } from "react-router-dom"; 
 import "./login.css";
+import "./app.css";
 import faceIdIcon from "./assets/faceIdIcon.png"
+import DateTime from './components/DateTime';
 
 export default function Login() {
   const API = import.meta.env.VITE_API_URL || "http://localhost:5000";
@@ -277,16 +279,28 @@ export default function Login() {
 
   return (
     <div className="login-container">
-      <div className="login-header">
-        <div className="time"><strong>{formattedTime}</strong></div>
-        <div className="date">{formattedDate}</div>
+      <div
+        style={{
+          position: 'absolute',
+          top: 0,
+          width: '100%',
+          display: 'flex',
+          justifyContent: 'center',
+          zIndex: 1000,
+        }}
+      >
+        <div
+          style={{
+            width: '90%',
+          }}
+        >
+          <DateTime />
+        </div>
       </div>
-
-      <hr className="login-divider" />
 
       <div className="login-box">
         <h1>{getGreeting()}!</h1>
-        <p>Welcome to the Smart Mirror</p>
+        <h3>Welcome to the Smart Mirror</h3>
 
         {stage === "face" && (
           isScanning ? (

@@ -1,8 +1,8 @@
-// src/IdlePage.jsx
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import "./login.css";
-import loginKey from "./assets/LoginKeyFinal.png";
+import DateTime from './components/DateTime';
 import { useNavigate } from "react-router-dom";
+import { FaSignInAlt } from "react-icons/fa";
 
 export default function IdlePage() {
   const [dateTime, setDateTime] = useState(new Date());
@@ -30,13 +30,26 @@ export default function IdlePage() {
 
   return (
     <div className="login-container">
-      <div className="login-header">
-        <div className="time">{formattedTime}</div>
-        <div className="date">{formattedDate}</div>
+      <div
+        style={{
+          position: 'absolute',
+          top: 0,
+          width: '100%',
+          display: 'flex',
+          justifyContent: 'center',
+          zIndex: 1000,
+        }}
+      >
+        <div
+          style={{
+            width: '90%',
+          }}
+        >
+          <DateTime />
+        </div>
       </div>
-      <hr className="login-divider" />
       <button className="floating-button" onClick={loginButtonClick}>
-        <img src={loginKey} alt="Login?" className="button-image" />
+        <FaSignInAlt size={48} color="white" />
       </button>
     </div>
   );
