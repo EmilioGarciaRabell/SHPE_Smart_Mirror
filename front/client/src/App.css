@@ -82,18 +82,9 @@
 }
 
 .login-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  flex-direction: column;
-  background-color: black;
+  border: 2px solid red;
+}
+.login-box {
+  border: 2px solid blue;
 }
 
-.login-box {
-  background-color: #1a1a1a;
-  padding: 2rem;
-  border-radius: 12px;
-  text-align: center;
-  box-shadow: 0 0 15px rgba(255,255,255,0.2);
-}
