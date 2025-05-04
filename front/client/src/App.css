@@ -82,9 +82,12 @@
 }
 
 .login-container {
-  border: 2px solid red;
+  display: flex;
+  justify-content: center;   /* Center horizontally */
+  align-items: center;       /* Center vertically */
+  height: 100vh;             /* Full viewport height */
+  flex-direction: column;
+  background-color: black;   /* or whatever matches your UI */
 }
-.login-box {
-  border: 2px solid blue;
-}
+
 
