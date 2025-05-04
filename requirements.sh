@@ -8,6 +8,7 @@ VENV_NAME=py3.9env
 
 sudo apt update
 sudo apt-get install cmake
+sudo apt-get install nodejs
 sudo apt install -y \
   build-essential curl git libssl-dev zlib1g-dev libbz2-dev \
   libreadline-dev libsqlite3-dev wget llvm libncurses5-dev \
