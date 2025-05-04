@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { FaCamera } from 'react-icons/fa';
 
 const CameraPanel = ({ onClose }) => {
+  const navigate = useNavigate();
   const videoRef = useRef(null);
   const streamRef = useRef(null);
 
