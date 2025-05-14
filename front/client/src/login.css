@@ -1,0 +1,265 @@
+/* Main layout */
+.login-container {
+    height: 100vh;
+    width: 100vw;
+    background-color: #1a1a1a;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    box-sizing: border-box;
+  }
+  
+  /* Top header: time left, date right */
+  .login-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: monospace;
+    font-size: 2rem;
+    font-weight: 600;
+  }
+  
+  .time, .date {
+    flex: 1;
+  }
+  
+  .time {
+    text-align: left;
+  }
+  
+  .date {
+    text-align: right;
+    font-size: 1.6rem;
+    font-weight: 400;
+  }
+  
+  /* Divider line */
+  .login-divider {
+    border: none;
+    border-top: 2px solid #444;
+    margin: 1rem 0 3rem 0;
+  }
+  
+  /* Centered login box */
+  .login-box {
+    margin: 0 auto;
+    margin-top: 50%;
+    background-color: #2a2a2a;
+    padding: 2.5rem 3.5rem;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 0 20px rgba(0,0,0,0.4);
+    max-width: 400px;
+  }
+  
+  .login-box h1 {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .login-box p {
+    font-size: 1rem;
+    color: #ccc;
+    margin-bottom: 1.2rem;
+  }
+  
+  /* Button styling */
+  .login-button {
+    padding: 0.7rem 1.4rem;
+    font-size: 0.95rem;
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin: 10px;
+  }
+  
+  .login-button:hover {
+    background-color: #555;
+  }
+
+  .countdown-text {
+    font-size: 1.2em;
+    color: #555;
+    margin-top: 10px;
+    font-weight: bold;
+  }
+
+  .floating-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: 1000;
+  }
+  
+  .button-image {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+  }
+  
+  .camera-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .camera-video {
+    border: 3px solid white;
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+  }
+  
+  .capture-button-wrapper {
+    position: fixed;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 20;
+    text-align: center;
+  }
+  
+  .capture-message {
+    position: fixed;
+    bottom: 90px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    font-size: 1.1rem;
+    font-family: "Segoe UI", sans-serif;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 4px 10px;
+    border-radius: 8px;
+  }
+  
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 12px;
+  }
+  
+  .gallery-img {
+    width: 100%;
+    border-radius: 12px;
+    object-fit: cover;
+    border: 2px solid #333;
+    transition: transform 0.2s ease;
+  }
+  
+  .gallery-img:hover {
+    transform: scale(1.05);
+  }
+
+  .scanning-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 2rem;
+  }
+  
+  .scanning-icon {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 1rem;
+    animation: pulse 1.5s infinite ease-in-out;
+  }
+  
+  .scanning-text {
+    color: white;
+    font-size: 1.2rem;
+    animation: fadeIn 1s ease-in-out;
+  }
+  
+  @keyframes pulse {
+    0%   { transform: scale(1); opacity: 1; }
+    50%  { transform: scale(1.1); opacity: 0.8; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  .spinner {
+    width: 20px;
+    height: 20px;
+    border: 3px solid white;
+    border-top: 3px solid #888;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto;
+  }
+  
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  .face-guide-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 160px;
+    height: 160px;
+    transform: translate(-50%, -50%);
+    border: 2px dashed white;
+    border-radius: 12px;
+    pointer-events: none; 
+    animation: pulseFace 2s infinite;
+  }
+  
+  @keyframes pulseFace {
+    0% {
+      box-shadow: 0 0 5px rgba(255, 255, 255, 0.7);
+    }
+    50% {
+      box-shadow: 0 0 15px rgba(255, 255, 255, 1);
+    }
+    100% {
+      box-shadow: 0 0 5px rgba(255, 255, 255, 0.7);
+    }
+  }
+  
+  /* position a full‑width flex container fixed at 20px from viewport bottom */
+.back-button-container {
+  position: fixed;
+  bottom: 20px;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.home-button {
+  position: fixed;
+  bottom: 20px;           /* distance from bottom */
+  left: 50%;              /* start at horizontal center */
+  transform: translateX(-50%); /* shift back by half its width */
+  z‑index: 100;
+  background: none;
+  border: none;
+}
+
+.gallery-button {
+  position: fixed;
+  bottom: 20px;       /* distance from bottom edge */
+  left: 20px;         /* distance from left edge */
+  z-index: 100;       /* stay on top */
+  
+  background: none;   /* remove default button styling */
+  border: none;
+  padding: 0;         /* if your icon has its own spacing */
+  cursor: pointer;
+}
+  
+  
+  

@@ -1,0 +1,7 @@
+start_mirror_vm.sh
+.python-version
+server/data/
+Pipfile
+Pipfile.lock
+
+*.env
